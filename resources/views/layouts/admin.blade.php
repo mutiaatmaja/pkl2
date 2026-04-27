@@ -38,9 +38,9 @@
             {{-- Navigation --}}
             <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-0.5">
 
-                <a href="{{ route('dashboard') }}" wire:navigate
+                <a href="{{ route('admin.dashboard') }}" wire:navigate
                     class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors
-                           {{ request()->routeIs('dashboard') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                           {{ request()->routeIs('admin.dashboard') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
                     <span class="text-base leading-none">🏠</span>
                     Dashboard
                 </a>
@@ -73,6 +73,13 @@
                            {{ request()->routeIs('admin.dudi.*') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
                     <span class="text-base leading-none">🏢</span>
                     DUDI
+                </a>
+
+                <a href="{{ route('admin.dudi-request.index') }}" wire:navigate
+                    class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors
+                           {{ request()->routeIs('admin.dudi-request.*') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                    <span class="text-base leading-none">📥</span>
+                    Request DUDI
                 </a>
 
                 <p class="mt-5 mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">Sistem</p>
