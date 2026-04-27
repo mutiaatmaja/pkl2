@@ -122,7 +122,8 @@ new #[Layout('layouts.app')] class extends Component {
 
             <div class="mt-4">
                 @if ($this->dudis->isEmpty())
-                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white px-4 py-5 text-sm text-slate-500">
+                    <div
+                        class="overflow-hidden rounded-2xl border border-slate-200 bg-white px-4 py-5 text-sm text-slate-500">
                         Data DUDI tidak ditemukan.
                     </div>
                 @else
@@ -144,7 +145,8 @@ new #[Layout('layouts.app')] class extends Component {
                                     <div>
                                         <p class="text-xs font-semibold text-slate-500">Kuota: <span
                                                 class="font-bold text-slate-800">{{ $dudi->kuota }}</span></p>
-                                        <p class="mt-0.5 text-xs font-semibold {{ $dudi->siswas_count >= $dudi->kuota ? 'text-rose-600' : 'text-emerald-700' }}">
+                                        <p
+                                            class="mt-0.5 text-xs font-semibold {{ $dudi->siswas_count >= $dudi->kuota ? 'text-rose-600' : 'text-emerald-700' }}">
                                             Terisi: {{ $dudi->siswas_count }}/{{ $dudi->kuota }}
                                             ({{ $dudi->siswas_count >= $dudi->kuota ? 'Penuh' : 'Tersedia' }})
                                         </p>
@@ -188,7 +190,8 @@ new #[Layout('layouts.app')] class extends Component {
                                             {{ $dudi->siswas_count >= $dudi->kuota ? '(Penuh)' : '(Tersedia)' }}
                                         </span>
                                     </div>
-                                    <div class="col-span-1 text-right font-bold text-slate-800">{{ $dudi->kuota }}</div>
+                                    <div class="col-span-1 text-right font-bold text-slate-800">{{ $dudi->kuota }}
+                                    </div>
                                     <div class="col-span-2 text-right">
                                         <a href="{{ route('dudi.show', $dudi) }}" wire:navigate
                                             class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 whitespace-nowrap">
