@@ -161,7 +161,7 @@ new #[Layout('layouts.app')] class extends Component {
                     <div class="hidden overflow-hidden rounded-2xl border border-slate-200 md:block">
                         <div
                             class="grid grid-cols-12 bg-slate-100/80 px-3 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 sm:px-4">
-                            <div class="col-span-4">DUDI</div>
+                            <div class="col-span-3">DUDI</div>
                             <div class="col-span-3">Alamat</div>
                             <div class="col-span-1 text-center">Aktif</div>
                             <div class="col-span-2 text-center">Status Terisi</div>
@@ -173,7 +173,7 @@ new #[Layout('layouts.app')] class extends Component {
                             @foreach ($this->dudis as $dudi)
                                 <div wire:key="dudi-desktop-{{ $dudi->id }}"
                                     class="grid grid-cols-12 items-center border-t border-slate-100 px-3 py-2 text-sm text-slate-700 sm:px-4">
-                                    <div class="col-span-4 pr-2 font-semibold text-slate-900">{{ $dudi->name }}</div>
+                                    <div class="col-span-3 pr-2 font-semibold text-slate-900">{{ $dudi->name }}</div>
                                     <div class="col-span-3 truncate pr-2 text-slate-600">{{ $dudi->address }}</div>
                                     <div class="col-span-1 text-center">
                                         <span
@@ -191,7 +191,7 @@ new #[Layout('layouts.app')] class extends Component {
                                     <div class="col-span-1 text-right font-bold text-slate-800">{{ $dudi->kuota }}</div>
                                     <div class="col-span-2 text-right">
                                         <a href="{{ route('dudi.show', $dudi) }}" wire:navigate
-                                            class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50">
+                                            class="inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 whitespace-nowrap">
                                             Detail
                                         </a>
                                     </div>
