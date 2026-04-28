@@ -42,9 +42,16 @@
 
                 <p class="mt-5 mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">Menu Siswa</p>
 
+                <a href="{{ route('siswa.profile') }}" wire:navigate
+                    class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors
+                           {{ request()->routeIs('siswa.profile') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                    <span class="text-base leading-none">👤</span>
+                    Profil Saya
+                </a>
+
                 <a href="{{ route('siswa.pilih-dudi') }}" wire:navigate
                     class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors
-                           {{ request()->routeIs('siswa.pilih-dudi') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                           {{ request()->routeIs('siswa.pilih-dudi*') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
                     <span class="text-base leading-none">🏢</span>
                     Pilih DUDI
                 </a>

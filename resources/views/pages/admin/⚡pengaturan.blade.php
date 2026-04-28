@@ -14,6 +14,8 @@ new #[Layout('layouts.admin')] class extends Component {
     public string $jabatan_penandatangan = '';
     public ?string $nip_penandatangan = null;
     public ?string $tanggal_surat = null;
+    public ?string $periode_pkl_mulai = null;
+    public ?string $periode_pkl_selesai = null;
     public bool $enable_ttd_scan = false;
     public string $lokasi_penerbitan = 'Pontianak';
 
@@ -38,6 +40,8 @@ new #[Layout('layouts.admin')] class extends Component {
         $this->jabatan_penandatangan = $p->jabatan_penandatangan;
         $this->nip_penandatangan = $p->nip_penandatangan;
         $this->tanggal_surat = $p->tanggal_surat?->format('Y-m-d');
+        $this->periode_pkl_mulai = $p->periode_pkl_mulai?->format('Y-m-d');
+        $this->periode_pkl_selesai = $p->periode_pkl_selesai?->format('Y-m-d');
         $this->enable_ttd_scan = $p->enable_ttd_scan;
         $this->lokasi_penerbitan = $p->lokasi_penerbitan;
         $this->currentTtdPath = $p->ttd_pejabat;
@@ -52,6 +56,8 @@ new #[Layout('layouts.admin')] class extends Component {
             'jabatan_penandatangan' => 'required|string|max:255',
             'nip_penandatangan' => 'nullable|string|max:30',
             'tanggal_surat' => 'nullable|date',
+            'periode_pkl_mulai' => 'nullable|date',
+            'periode_pkl_selesai' => 'nullable|date|after_or_equal:periode_pkl_mulai',
             'lokasi_penerbitan' => 'required|string|max:100',
             'ttdUpload' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'kopSuratUpload' => 'nullable|image|mimes:jpg,jpeg,png|max:4096',
@@ -81,6 +87,8 @@ new #[Layout('layouts.admin')] class extends Component {
             'jabatan_penandatangan' => $this->jabatan_penandatangan,
             'nip_penandatangan' => $this->nip_penandatangan,
             'tanggal_surat' => $this->tanggal_surat ?: null,
+            'periode_pkl_mulai' => $this->periode_pkl_mulai ?: null,
+            'periode_pkl_selesai' => $this->periode_pkl_selesai ?: null,
             'enable_ttd_scan' => $this->enable_ttd_scan,
             'lokasi_penerbitan' => $this->lokasi_penerbitan,
             'ttd_pejabat' => $ttdPath,
@@ -202,6 +210,28 @@ new #[Layout('layouts.admin')] class extends Component {
                     <input wire:model="tanggal_surat" type="date"
                         class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('tanggal_surat') border-red-400 @enderror">
                     @error('tanggal_surat')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-700">
+                        Periode PKL Mulai
+                    </label>
+                    <input wire:model="periode_pkl_mulai" type="date"
+                        class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('periode_pkl_mulai') border-red-400 @enderror">
+                    @error('periode_pkl_mulai')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="mb-1.5 block text-sm font-semibold text-slate-700">
+                        Periode PKL Selesai
+                    </label>
+                    <input wire:model="periode_pkl_selesai" type="date"
+                        class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('periode_pkl_selesai') border-red-400 @enderror">
+                    @error('periode_pkl_selesai')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
                 </div>

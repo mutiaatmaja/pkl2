@@ -61,16 +61,16 @@ class PklMasterSeeder extends Seeder
         ]);
 
         $sampleSiswa = [
-            ['name' => 'Andi Saputra', 'email' => 'andi.saputra@siswa.smkn7.test', 'nis' => '2407001', 'nisn' => '007001001'],
-            ['name' => 'Budi Santoso', 'email' => 'budi.santoso@siswa.smkn7.test', 'nis' => '2407002', 'nisn' => '007001002'],
-            ['name' => 'Citra Maharani', 'email' => 'citra.maharani@siswa.smkn7.test', 'nis' => '2407003', 'nisn' => '007001003'],
-            ['name' => 'Dimas Pratama', 'email' => 'dimas.pratama@siswa.smkn7.test', 'nis' => '2407004', 'nisn' => '007001004'],
-            ['name' => 'Eka Putri', 'email' => 'eka.putri@siswa.smkn7.test', 'nis' => '2407005', 'nisn' => '007001005'],
-            ['name' => 'Fajar Nugroho', 'email' => 'fajar.nugroho@siswa.smkn7.test', 'nis' => '2407006', 'nisn' => '007001006'],
-            ['name' => 'Gina Lestari', 'email' => 'gina.lestari@siswa.smkn7.test', 'nis' => '2407007', 'nisn' => '007001007'],
-            ['name' => 'Hendra Wijaya', 'email' => 'hendra.wijaya@siswa.smkn7.test', 'nis' => '2407008', 'nisn' => '007001008'],
-            ['name' => 'Intan Permata', 'email' => 'intan.permata@siswa.smkn7.test', 'nis' => '2407009', 'nisn' => '007001009'],
-            ['name' => 'Joko Prabowo', 'email' => 'joko.prabowo@siswa.smkn7.test', 'nis' => '2407010', 'nisn' => '007001010'],
+            ['name' => 'Andi Saputra', 'email' => 'andi.saputra@siswa.smkn7.test', 'nis' => '2407001', 'nisn' => '007001001', 'jenis_kelamin' => 'L', 'alamat' => 'Jl. Tanjung Raya 1, Pontianak', 'no_hp' => '081234567001'],
+            ['name' => 'Budi Santoso', 'email' => 'budi.santoso@siswa.smkn7.test', 'nis' => '2407002', 'nisn' => '007001002', 'jenis_kelamin' => 'L', 'alamat' => 'Jl. Tanjung Raya 2, Pontianak', 'no_hp' => '081234567002'],
+            ['name' => 'Citra Maharani', 'email' => 'citra.maharani@siswa.smkn7.test', 'nis' => '2407003', 'nisn' => '007001003', 'jenis_kelamin' => 'P', 'alamat' => 'Jl. Tanjung Raya 3, Pontianak', 'no_hp' => '081234567003'],
+            ['name' => 'Dimas Pratama', 'email' => 'dimas.pratama@siswa.smkn7.test', 'nis' => '2407004', 'nisn' => '007001004', 'jenis_kelamin' => 'L', 'alamat' => 'Jl. Tanjung Raya 4, Pontianak', 'no_hp' => '081234567004'],
+            ['name' => 'Eka Putri', 'email' => 'eka.putri@siswa.smkn7.test', 'nis' => '2407005', 'nisn' => '007001005', 'jenis_kelamin' => 'P', 'alamat' => 'Jl. Tanjung Raya 5, Pontianak', 'no_hp' => '081234567005'],
+            ['name' => 'Fajar Nugroho', 'email' => 'fajar.nugroho@siswa.smkn7.test', 'nis' => '2407006', 'nisn' => '007001006', 'jenis_kelamin' => 'L', 'alamat' => 'Jl. Tanjung Raya 6, Pontianak', 'no_hp' => '081234567006'],
+            ['name' => 'Gina Lestari', 'email' => 'gina.lestari@siswa.smkn7.test', 'nis' => '2407007', 'nisn' => '007001007', 'jenis_kelamin' => 'P', 'alamat' => 'Jl. Tanjung Raya 7, Pontianak', 'no_hp' => '081234567007'],
+            ['name' => 'Hendra Wijaya', 'email' => 'hendra.wijaya@siswa.smkn7.test', 'nis' => '2407008', 'nisn' => '007001008', 'jenis_kelamin' => 'L', 'alamat' => 'Jl. Tanjung Raya 8, Pontianak', 'no_hp' => '081234567008'],
+            ['name' => 'Intan Permata', 'email' => 'intan.permata@siswa.smkn7.test', 'nis' => '2407009', 'nisn' => '007001009', 'jenis_kelamin' => 'P', 'alamat' => 'Jl. Tanjung Raya 9, Pontianak', 'no_hp' => '081234567009'],
+            ['name' => 'Joko Prabowo', 'email' => 'joko.prabowo@siswa.smkn7.test', 'nis' => '2407010', 'nisn' => '007001010', 'jenis_kelamin' => 'L', 'alamat' => 'Jl. Tanjung Raya 10, Pontianak', 'no_hp' => '081234567010'],
         ];
 
         foreach ($sampleSiswa as $index => $data) {
@@ -96,6 +96,9 @@ class PklMasterSeeder extends Seeder
                     'jurusan_id' => $jurusanRpl->id,
                     'kelas_id' => $kelas->id,
                     'nisn' => $data['nisn'],
+                    'jenis_kelamin' => $data['jenis_kelamin'],
+                    'alamat' => $data['alamat'],
+                    'no_hp' => $data['no_hp'],
                 ]
             );
         }

@@ -52,8 +52,11 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:siswa')->prefix('siswa')->name('siswa.')->group(function () {
         Route::view('/dashboard', 'dashboard-siswa')->name('dashboard');
-        Route::livewire('/pilih-dudi', 'pages::siswa.pilih-dudi')->name('pilih-dudi');
-        Route::livewire('/pilih-dudi/{dudi}', 'pages::siswa.dudi-detail')->name('pilih-dudi.detail');
+        Route::livewire('/profil', 'pages::siswa.profil')->name('profile');
+        Route::middleware('siswa.profile.completed')->group(function () {
+            Route::livewire('/pilih-dudi', 'pages::siswa.pilih-dudi')->name('pilih-dudi');
+            Route::livewire('/pilih-dudi/{dudi}', 'pages::siswa.dudi-detail')->name('pilih-dudi.detail');
+        });
         Route::livewire('/request-dudi', 'pages::siswa.request-dudi')->name('request-dudi');
         Route::livewire('/cetak-surat', 'pages::siswa.cetak-surat')->name('cetak-surat');
         Route::get('/surat-permohonan/{dudi}', [SiswaSuratController::class, 'suratPermohonan'])->name('surat-permohonan');

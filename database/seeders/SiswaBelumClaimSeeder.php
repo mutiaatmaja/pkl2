@@ -41,11 +41,11 @@ class SiswaBelumClaimSeeder extends Seeder
         ]);
 
         $sampleSiswaBelumClaim = [
-            ['name' => 'Kevin Ardiansyah', 'nis' => '2407011', 'nisn' => '007001011'],
-            ['name' => 'Lina Oktavia', 'nis' => '2407012', 'nisn' => '007001012'],
-            ['name' => 'Miko Firmansyah', 'nis' => '2407013', 'nisn' => '007001013'],
-            ['name' => 'Nadia Wulandari', 'nis' => '2407014', 'nisn' => '007001014'],
-            ['name' => 'Oky Prasetyo', 'nis' => '2407015', 'nisn' => '007001015'],
+            ['name' => 'Kevin Ardiansyah', 'nis' => '2407011', 'nisn' => '007001011', 'jenis_kelamin' => 'L', 'alamat' => 'Jl. Imam Bonjol 11, Pontianak', 'no_hp' => '081298760011'],
+            ['name' => 'Lina Oktavia', 'nis' => '2407012', 'nisn' => '007001012', 'jenis_kelamin' => 'P', 'alamat' => 'Jl. Imam Bonjol 12, Pontianak', 'no_hp' => '081298760012'],
+            ['name' => 'Miko Firmansyah', 'nis' => '2407013', 'nisn' => '007001013', 'jenis_kelamin' => 'L', 'alamat' => 'Jl. Imam Bonjol 13, Pontianak', 'no_hp' => '081298760013'],
+            ['name' => 'Nadia Wulandari', 'nis' => '2407014', 'nisn' => '007001014', 'jenis_kelamin' => 'P', 'alamat' => 'Jl. Imam Bonjol 14, Pontianak', 'no_hp' => '081298760014'],
+            ['name' => 'Oky Prasetyo', 'nis' => '2407015', 'nisn' => '007001015', 'jenis_kelamin' => 'L', 'alamat' => 'Jl. Imam Bonjol 15, Pontianak', 'no_hp' => '081298760015'],
         ];
 
         foreach ($sampleSiswaBelumClaim as $index => $data) {
@@ -71,6 +71,9 @@ class SiswaBelumClaimSeeder extends Seeder
                     'jurusan_id' => $jurusanRpl->id,
                     'kelas_id' => $kelas->id,
                     'nisn' => $data['nisn'],
+                    'jenis_kelamin' => $data['jenis_kelamin'],
+                    'alamat' => $data['alamat'],
+                    'no_hp' => $data['no_hp'],
                     'dudi_id' => null,
                 ]
             );

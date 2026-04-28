@@ -12,6 +12,8 @@ class Pengaturan extends Model
         'jabatan_penandatangan',
         'nip_penandatangan',
         'tanggal_surat',
+        'periode_pkl_mulai',
+        'periode_pkl_selesai',
         'ttd_pejabat',
         'enable_ttd_scan',
         'lokasi_penerbitan',
@@ -20,6 +22,8 @@ class Pengaturan extends Model
 
     protected $casts = [
         'tanggal_surat' => 'date',
+        'periode_pkl_mulai' => 'date',
+        'periode_pkl_selesai' => 'date',
         'enable_ttd_scan' => 'boolean',
     ];
 

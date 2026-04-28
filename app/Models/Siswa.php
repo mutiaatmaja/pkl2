@@ -18,7 +18,17 @@ class Siswa extends Model
         'dudi_id',
         'nis',
         'nisn',
+        'jenis_kelamin',
+        'alamat',
+        'no_hp',
     ];
+
+    public function isProfileComplete(): bool
+    {
+        return filled($this->jenis_kelamin)
+            && filled($this->alamat)
+            && filled($this->no_hp);
+    }
 
     public function user(): BelongsTo
     {

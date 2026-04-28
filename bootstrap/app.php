@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureSiswaProfileCompleted;
 use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,8 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'role' => EnsureUserHasRole::class,
+            'siswa.profile.completed' => EnsureSiswaProfileCompleted::class,
         ]);
-    $middleware->trustProxies(at: '*');
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

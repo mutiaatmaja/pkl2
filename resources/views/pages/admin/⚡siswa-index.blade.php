@@ -30,6 +30,9 @@ new #[Layout('layouts.admin')] class extends Component {
     public string $nama = '';
     public string $nis = '';
     public string $nisn = '';
+    public string $jenis_kelamin = '';
+    public string $alamat = '';
+    public string $no_hp = '';
     public ?int $jurusan_id = null;
     public ?int $kelas_id = null;
 
@@ -119,6 +122,9 @@ new #[Layout('layouts.admin')] class extends Component {
         $this->nama = $siswa->user?->name ?? '';
         $this->nis = $siswa->nis;
         $this->nisn = $siswa->nisn;
+        $this->jenis_kelamin = (string) ($siswa->jenis_kelamin ?? '');
+        $this->alamat = (string) ($siswa->alamat ?? '');
+        $this->no_hp = (string) ($siswa->no_hp ?? '');
         $this->jurusan_id = $siswa->jurusan_id;
         $this->kelas_id = $siswa->kelas_id;
         $this->resetValidation();
@@ -131,6 +137,9 @@ new #[Layout('layouts.admin')] class extends Component {
             'nama' => 'required|string|max:255',
             'nis' => 'required|string|max:30|unique:siswas,nis' . ($this->editingId ? ",{$this->editingId}" : ''),
             'nisn' => 'required|string|max:30|unique:siswas,nisn' . ($this->editingId ? ",{$this->editingId}" : ''),
+            'jenis_kelamin' => 'required|in:L,P',
+            'alamat' => 'required|string|max:1000',
+            'no_hp' => 'required|string|max:30',
             'jurusan_id' => 'required|exists:jurusans,id',
             'kelas_id' => 'required|exists:kelas,id',
         ]);
@@ -140,6 +149,9 @@ new #[Layout('layouts.admin')] class extends Component {
             $siswa->update([
                 'nis' => $this->nis,
                 'nisn' => $this->nisn,
+                'jenis_kelamin' => $this->jenis_kelamin,
+                'alamat' => $this->alamat,
+                'no_hp' => $this->no_hp,
                 'jurusan_id' => $this->jurusan_id,
                 'kelas_id' => $this->kelas_id,
             ]);
@@ -162,6 +174,9 @@ new #[Layout('layouts.admin')] class extends Component {
                 'kelas_id' => $this->kelas_id,
                 'nis' => $this->nis,
                 'nisn' => $this->nisn,
+                'jenis_kelamin' => $this->jenis_kelamin,
+                'alamat' => $this->alamat,
+                'no_hp' => $this->no_hp,
             ]);
             $this->notify('Siswa berhasil ditambahkan!');
         }
@@ -251,6 +266,9 @@ new #[Layout('layouts.admin')] class extends Component {
         $this->nama = '';
         $this->nis = '';
         $this->nisn = '';
+        $this->jenis_kelamin = '';
+        $this->alamat = '';
+        $this->no_hp = '';
         $this->jurusan_id = null;
         $this->kelas_id = null;
         $this->resetValidation();
@@ -398,6 +416,10 @@ new #[Layout('layouts.admin')] class extends Component {
                                     class="inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-500">Belum
                                     Magang</span>
                             @endif
+                            <p class="mt-1 text-xs text-slate-500">
+                                {{ $siswa->jenis_kelamin === 'L' ? 'Laki-laki' : ($siswa->jenis_kelamin === 'P' ? 'Perempuan' : '-') }}
+                                • {{ $siswa->no_hp ?: '-' }}
+                            </p>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-end gap-2">
@@ -491,6 +513,44 @@ new #[Layout('layouts.admin')] class extends Component {
                                 <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-600">Jenis
+                                Kelamin</label>
+                            <select wire:model="jenis_kelamin"
+                                class="w-full rounded-xl border px-4 py-2.5 text-sm transition focus:outline-none focus:ring-1
+                                   {{ $errors->has('jenis_kelamin') ? 'border-red-300 focus:border-red-400 focus:ring-red-400' : 'border-slate-200 focus:border-cyan-400 focus:ring-cyan-400' }}">
+                                <option value="">-- Pilih Jenis Kelamin --</option>
+                                <option value="L">Laki-laki</option>
+                                <option value="P">Perempuan</option>
+                            </select>
+                            @error('jenis_kelamin')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label class="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-600">No
+                                HP</label>
+                            <input wire:model="no_hp" type="text" placeholder="081234567890"
+                                class="w-full rounded-xl border px-4 py-2.5 text-sm transition focus:outline-none focus:ring-1
+                                       {{ $errors->has('no_hp') ? 'border-red-300 focus:border-red-400 focus:ring-red-400' : 'border-slate-200 focus:border-cyan-400 focus:ring-cyan-400' }}">
+                            @error('no_hp')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div>
+                        <label
+                            class="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-600">Alamat</label>
+                        <textarea wire:model="alamat" rows="2" placeholder="Alamat lengkap siswa"
+                            class="w-full rounded-xl border px-4 py-2.5 text-sm transition focus:outline-none focus:ring-1
+                                   {{ $errors->has('alamat') ? 'border-red-300 focus:border-red-400 focus:ring-red-400' : 'border-slate-200 focus:border-cyan-400 focus:ring-cyan-400' }}"></textarea>
+                        @error('alamat')
+                            <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
