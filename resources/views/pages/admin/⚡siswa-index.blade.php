@@ -212,8 +212,8 @@ new #[Layout('layouts.admin')] class extends Component {
             $message .= " {$totalSkipped} baris dilewati (duplikat / data tidak valid)";
         }
 
-        if (! empty($import->skipReasons)) {
-            $message .= ' Detail: '.implode(' | ', $import->skipReasons);
+        if (!empty($import->skipReasons)) {
+            $message .= ' Detail: ' . implode(' | ', $import->skipReasons);
         }
 
         $validationFailureMessages = collect($import->failures())
@@ -226,8 +226,8 @@ new #[Layout('layouts.admin')] class extends Component {
             ->values()
             ->all();
 
-        if (! empty($validationFailureMessages)) {
-            $message .= ' Validasi: '.implode(' | ', $validationFailureMessages);
+        if (!empty($validationFailureMessages)) {
+            $message .= ' Validasi: ' . implode(' | ', $validationFailureMessages);
         }
 
         $this->importFile = null;
@@ -290,8 +290,10 @@ new #[Layout('layouts.admin')] class extends Component {
 
     {{-- Toast Notification --}}
     @if ($toast)
-        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false;
-            setTimeout(() => $wire.dismissToast(), 300) }, 3000)"
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => {
+            show = false;
+            setTimeout(() => $wire.dismissToast(), 300)
+        }, 3000)"
             x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-2"
             class="fixed right-5 top-5 z-50 flex items-center gap-3 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-lg
