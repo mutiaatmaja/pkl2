@@ -144,15 +144,27 @@ new #[Layout('layouts.admin')] class extends Component {
             <h1 class="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">Detail DUDI</h1>
             <p class="mt-1 text-sm text-slate-500">{{ $dudi->name }} • {{ $dudi->address }}</p>
         </div>
-        <a href="{{ route('admin.dudi.surat-permohonan', $dudi) }}" target="_blank"
-            class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700">
-            Cetak Surat Permohonan
-        </a>
+        <div class="flex flex-wrap items-center gap-2">
+            <a href="{{ route('admin.dudi.surat-permohonan', $dudi) }}" target="_blank"
+                class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700">
+                Cetak Surat Permohonan
+            </a>
+            <a href="{{ route('admin.dudi.surat-amplop', $dudi) }}" target="_blank"
+                class="inline-flex items-center gap-2 rounded-xl bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-700">
+                Cetak Amplop
+            </a>
+            <a href="{{ route('admin.dudi.surat-balasan', $dudi) }}" target="_blank"
+                class="inline-flex items-center gap-2 rounded-xl bg-slate-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800">
+                Cetak Balasan
+            </a>
+        </div>
     </div>
 
     @if ($toast)
-        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false;
-            setTimeout(() => $wire.dismissToast(), 300) }, 3000)"
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => {
+            show = false;
+            setTimeout(() => $wire.dismissToast(), 300)
+        }, 3000)"
             x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-2"
             class="fixed right-5 top-5 z-50 flex items-center gap-3 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-lg

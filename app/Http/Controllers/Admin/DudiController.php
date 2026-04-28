@@ -15,6 +15,42 @@ class DudiController extends Controller
 {
     public function suratPermohonan(Dudi $dudi)
     {
+        [$pdfData, $dudiFileSegment] = $this->buildPdfData($dudi);
+
+        $pdfFileName = 'SuratPermohonan_'.($dudiFileSegment !== '' ? $dudiFileSegment : $dudi->id).'.pdf';
+
+        return pdf()
+            ->view('pdf.surat-permohonan-magang', $pdfData)
+            ->name($pdfFileName)
+            ->download();
+    }
+
+    public function suratAmplop(Dudi $dudi)
+    {
+        [$pdfData, $dudiFileSegment] = $this->buildPdfData($dudi);
+
+        $pdfFileName = 'AmplopSurat_'.($dudiFileSegment !== '' ? $dudiFileSegment : $dudi->id).'.pdf';
+
+        return pdf()
+            ->view('pdf.surat-amplop', $pdfData)
+            ->name($pdfFileName)
+            ->download();
+    }
+
+    public function suratBalasan(Dudi $dudi)
+    {
+        [$pdfData, $dudiFileSegment] = $this->buildPdfData($dudi);
+
+        $pdfFileName = 'SuratBalasan_'.($dudiFileSegment !== '' ? $dudiFileSegment : $dudi->id).'.pdf';
+
+        return pdf()
+            ->view('pdf.surat-balasan', $pdfData)
+            ->name($pdfFileName)
+            ->download();
+    }
+
+    private function buildPdfData(Dudi $dudi): array
+    {
         $dudi->load([
             'siswas' => fn ($query) => $query
                 ->with(['user:id,name', 'kelas:id,name', 'jurusan:id,name'])
@@ -36,19 +72,17 @@ class DudiController extends Controller
             ->ascii()
             ->replaceMatches('/[^A-Za-z0-9]+/', '');
 
-        $pdfFileName = 'SuratPermohonan_'.($dudiFileSegment !== '' ? $dudiFileSegment : $dudi->id).'.pdf';
-
-        return pdf()
-            ->view('pdf.surat-permohonan-magang', [
+        return [
+            [
                 'dudi' => $dudi,
                 'siswas' => $dudi->siswas,
                 'tanggal' => $tanggal,
                 'pengaturan' => $pengaturan,
                 'kopSuratPath' => $kopSuratPath,
                 'ttdPath' => $ttdPath,
-            ])
-            ->name($pdfFileName)
-            ->download();
+            ],
+            $dudiFileSegment,
+        ];
     }
 
     public function downloadTemplate(): StreamedResponse
