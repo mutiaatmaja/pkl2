@@ -19,14 +19,12 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class SiswaImport implements ToModel, WithHeadingRow, WithValidation, SkipsEmptyRows, SkipsOnFailure, SkipsOnError
+class SiswaImport implements SkipsEmptyRows, SkipsOnError, SkipsOnFailure, ToModel, WithHeadingRow, WithValidation
 {
-    use Importable, SkipsFailures, SkipsErrors;
+    use Importable, SkipsErrors, SkipsFailures;
 
-    /** @var int */
     public int $importedCount = 0;
 
-    /** @var int */
     public int $skippedCount = 0;
 
     public function model(array $row): ?Siswa
@@ -111,77 +109,5 @@ class SiswaImport implements ToModel, WithHeadingRow, WithValidation, SkipsEmpty
         return $this->skippedCount
             + count($this->failures())
             + count($this->errors());
-    }
-}
-
-    /** @var int */
-    public int $importedCount = 0;
-
-    /** @var int */
-    public int $skippedCount = 0;
-
-    public function model(array $row): ?Siswa
-    {
-        $jurusan = Jurusan::where('code', strtoupper(trim($row['kode_jurusan'])))->first();
-        if (! $jurusan) {
-            $this->skippedCount++;
-
-            return null;
-        }
-
-        $kelas = Kelas::where('jurusan_id', $jurusan->id)
-            ->where('name', trim($row['nama_kelas']))
-            ->first();
-        if (! $kelas) {
-            $this->skippedCount++;
-
-            return null;
-        }
-
-        $nisn = trim($row['nisn']);
-        $nis = trim($row['nis']);
-        $nama = trim($row['nama']);
-
-        if (Siswa::where('nisn', $nisn)->exists() || Siswa::where('nis', $nis)->exists()) {
-            $this->skippedCount++;
-
-            return null;
-        }
-
-        $siswaRole = Role::where('name', 'siswa')->first();
-
-        $user = User::firstOrCreate(
-            ['email' => $nisn.'@claim.smkn7.local'],
-            [
-                'name' => $nama,
-                'password' => Hash::make(Str::password(20)),
-                'email_verified_at' => null,
-            ]
-        );
-
-        if ($siswaRole) {
-            $user->syncRoles([$siswaRole]);
-        }
-
-        $this->importedCount++;
-
-        return new Siswa([
-            'user_id' => $user->id,
-            'jurusan_id' => $jurusan->id,
-            'kelas_id' => $kelas->id,
-            'nis' => $nis,
-            'nisn' => $nisn,
-        ]);
-    }
-
-    public function rules(): array
-    {
-        return [
-            'nis' => 'required|string|max:30',
-            'nisn' => 'required|string|max:30',
-            'nama' => 'required|string|max:255',
-            'kode_jurusan' => 'required|string|max:20',
-            'nama_kelas' => 'required|string|max:100',
-        ];
     }
 }
