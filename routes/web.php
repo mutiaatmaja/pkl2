@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:admin')->prefix('admin')->name('admin.')->group(function () {
         Route::view('/dashboard', 'dashboard')->name('dashboard');
+        Route::livewire('/users', 'pages::admin.user-index')->name('users.index');
         Route::livewire('/jurusan', 'pages::admin.jurusan-index')->name('jurusan.index');
         Route::livewire('/kelas', 'pages::admin.kelas-index')->name('kelas.index');
         Route::livewire('/siswa', 'pages::admin.siswa-index')->name('siswa.index');

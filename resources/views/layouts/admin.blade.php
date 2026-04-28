@@ -47,6 +47,13 @@
 
                 <p class="mt-5 mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">Data Master</p>
 
+                <a href="{{ route('admin.users.index') }}" wire:navigate
+                    class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors
+                           {{ request()->routeIs('admin.users.*') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                    <span class="text-base leading-none">👤</span>
+                    User
+                </a>
+
                 <a href="{{ route('admin.jurusan.index') }}" wire:navigate
                     class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors
                            {{ request()->routeIs('admin.jurusan.*') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
