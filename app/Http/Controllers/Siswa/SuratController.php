@@ -53,6 +53,7 @@ class SuratController extends Controller
                 'kopSuratPath' => $kopSuratPath,
                 'ttdPath' => $ttdPath,
             ])
+            ->paperSize(210, 330, 'mm')
             ->name($pdfFileName)
             ->download();
     }
