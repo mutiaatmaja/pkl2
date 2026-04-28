@@ -181,7 +181,7 @@
             <div style="float:right; text-align:center;">
                 {{ $pengaturan->lokasi_penerbitan }}, {{ $tanggal->translatedFormat('d F Y') }} <br><br>
 
-                a.n Kepala SMK Negeri 7 Pontianak <br><br>
+
 
                 <strong>{{ $ttdNamaJabatan }}</strong><br>
 
