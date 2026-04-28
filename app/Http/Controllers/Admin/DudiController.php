@@ -53,7 +53,7 @@ class DudiController extends Controller
     {
         $dudi->load([
             'siswas' => fn ($query) => $query
-                ->with(['user:id,name', 'kelas:id,name', 'jurusan:id,name'])
+                ->with(['user:id,name', 'kelas:id,name', 'jurusan:id,name,code'])
                 ->orderBy('nis'),
         ]);
 

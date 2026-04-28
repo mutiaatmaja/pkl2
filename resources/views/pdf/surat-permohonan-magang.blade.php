@@ -139,7 +139,7 @@
                 <th style="width: 95px;">NISN</th>
                 <th>Alamat</th>
                 <th style="width: 95px;">No HP</th>
-                <th style="width: 110px;">Jurusan</th>
+                <th style="width: 110px;">Kelas</th>
             </tr>
         </thead>
         <tbody>
@@ -151,7 +151,7 @@
                     <td>{{ $siswa->nisn }}</td>
                     <td>{{ $siswa->alamat ?? '-' }}</td>
                     <td>{{ $siswa->no_hp ?? '-' }}</td>
-                    <td>{{ $siswa->jurusan?->code ?? '-' }}</td>
+                    <td>{{ $siswa->kelas?->name ?? '-' }}</td>
                 </tr>
             @empty
                 <tr>
