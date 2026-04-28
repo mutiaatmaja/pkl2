@@ -212,8 +212,26 @@ new #[Layout('layouts.admin')] class extends Component {
             $message .= " {$totalSkipped} baris dilewati (duplikat / data tidak valid)";
         }
 
+        if (! empty($import->skipReasons)) {
+            $message .= ' Detail: '.implode(' | ', $import->skipReasons);
+        }
+
+        $validationFailureMessages = collect($import->failures())
+            ->take(3)
+            ->map(function ($failure): string {
+                $errors = implode(', ', $failure->errors());
+
+                return "Baris {$failure->row()} ({$failure->attribute()}): {$errors}";
+            })
+            ->values()
+            ->all();
+
+        if (! empty($validationFailureMessages)) {
+            $message .= ' Validasi: '.implode(' | ', $validationFailureMessages);
+        }
+
         $this->importFile = null;
-        $this->notify($message);
+        $this->notify($message, $import->importedCount > 0 ? 'success' : 'error');
         $this->showImportModal = false;
     }
 

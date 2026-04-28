@@ -10,47 +10,62 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\RemembersRowNumber;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
 
-class SiswaImport implements SkipsEmptyRows, SkipsOnError, SkipsOnFailure, ToModel, WithHeadingRow, WithValidation
+class SiswaImport implements SkipsEmptyRows, SkipsOnError, SkipsOnFailure, ToModel, WithCustomCsvSettings, WithHeadingRow
 {
     use Importable, SkipsErrors, SkipsFailures;
+    use RemembersRowNumber;
 
     public int $importedCount = 0;
 
     public int $skippedCount = 0;
 
+    /** @var array<int, string> */
+    public array $skipReasons = [];
+
     public function model(array $row): ?Siswa
     {
-        $jurusan = Jurusan::where('code', strtoupper(trim($row['kode_jurusan'])))->first();
+        $normalizedRow = $this->normalizeRowKeys($row);
+
+        $nis = trim((string) ($normalizedRow['nis'] ?? ''));
+        $nisn = trim((string) ($normalizedRow['nisn'] ?? ''));
+        $nama = trim((string) ($normalizedRow['nama'] ?? ''));
+        $kodeJurusan = strtoupper(trim((string) ($normalizedRow['kode_jurusan'] ?? '')));
+        $namaKelas = trim((string) ($normalizedRow['nama_kelas'] ?? ''));
+
+        if ($nis === '' || $nisn === '' || $nama === '' || $kodeJurusan === '' || $namaKelas === '') {
+            $this->addSkip('Kolom wajib kosong (nis/nisn/nama/kode_jurusan/nama_kelas).');
+
+            return null;
+        }
+
+        $jurusan = Jurusan::where('code', $kodeJurusan)->first();
         if (! $jurusan) {
-            $this->skippedCount++;
+            $this->addSkip('Kode jurusan tidak ditemukan: '.$kodeJurusan.'.');
 
             return null;
         }
 
         $kelas = Kelas::where('jurusan_id', $jurusan->id)
-            ->where('name', trim($row['nama_kelas']))
+            ->where('name', $namaKelas)
             ->first();
         if (! $kelas) {
-            $this->skippedCount++;
+            $this->addSkip('Nama kelas tidak ditemukan pada jurusan '.$kodeJurusan.': '.$namaKelas.'.');
 
             return null;
         }
 
-        $nisn = trim($row['nisn']);
-        $nis = trim($row['nis']);
-        $nama = trim($row['nama']);
-
         if (Siswa::where('nisn', $nisn)->exists() || Siswa::where('nis', $nis)->exists()) {
-            $this->skippedCount++;
+            $this->addSkip('Data duplikat (nis/nisn sudah ada): '.$nis.' / '.$nisn.'.');
 
             return null;
         }
@@ -81,26 +96,41 @@ class SiswaImport implements SkipsEmptyRows, SkipsOnError, SkipsOnFailure, ToMod
         ]);
     }
 
-    public function rules(): array
+    public function getCsvSettings(): array
     {
         return [
-            'nis' => 'required|string|max:30',
-            'nisn' => 'required|string|max:30',
-            'nama' => 'required|string|max:255',
-            'kode_jurusan' => 'required|string|max:20',
-            'nama_kelas' => 'required|string|max:100',
+            'input_encoding' => 'UTF-8',
         ];
     }
 
-    public function customValidationAttributes(): array
+    private function normalizeRowKeys(array $row): array
     {
-        return [
-            'nis' => 'NIS',
-            'nisn' => 'NISN',
-            'nama' => 'Nama',
-            'kode_jurusan' => 'Kode Jurusan',
-            'nama_kelas' => 'Nama Kelas',
-        ];
+        $normalized = [];
+
+        foreach ($row as $key => $value) {
+            $normalizedKey = (string) $key;
+            $normalizedKey = str_replace("\u{FEFF}", '', $normalizedKey);
+            $normalizedKey = trim($normalizedKey);
+            $normalizedKey = (string) Str::of($normalizedKey)
+                ->lower()
+                ->replaceMatches('/[^a-z0-9]+/', '_')
+                ->trim('_');
+
+            $normalized[$normalizedKey] = $value;
+        }
+
+        return $normalized;
+    }
+
+    private function addSkip(string $message): void
+    {
+        $this->skippedCount++;
+
+        if (count($this->skipReasons) >= 5) {
+            return;
+        }
+
+        $this->skipReasons[] = 'Baris '.$this->getRowNumber().': '.$message;
     }
 
     /** @return int Total rows skipped (validation failures + business logic skips + db errors) */
