@@ -6,8 +6,8 @@
     <title>Surat Permohonan PKL</title>
     <style>
         body {
-            font-family: 'Times New Roman', serif;
-            font-size: 12px;
+            font-family: Arial, sans-serif;
+            font-size: 12pt;
             line-height: 1.5;
         }
 
@@ -28,7 +28,7 @@
         .table td {
             border: 1px solid black;
             padding: 5px;
-            font-size: 11px;
+            font-size: 12pt;
         }
 
         .fit-content {
