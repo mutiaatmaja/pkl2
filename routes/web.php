@@ -43,9 +43,9 @@ Route::middleware('auth')->group(function () {
         Route::livewire('/siswa', 'pages::admin.siswa-index')->name('siswa.index');
         Route::get('/siswa/template', [SiswaController::class, 'downloadTemplate'])->name('siswa.template');
         Route::livewire('/dudi', 'pages::admin.dudi-index')->name('dudi.index');
+        Route::get('/dudi/template', [DudiController::class, 'downloadTemplate'])->name('dudi.template');
         Route::livewire('/dudi/{dudi}', 'pages::admin.dudi-detail')->name('dudi.show');
         Route::get('/dudi/{dudi}/surat-permohonan', [DudiController::class, 'suratPermohonan'])->name('dudi.surat-permohonan');
-        Route::get('/dudi/template', [DudiController::class, 'downloadTemplate'])->name('dudi.template');
         Route::livewire('/request-dudi', 'pages::admin.dudi-request-index')->name('dudi-request.index');
         Route::livewire('/pengaturan', 'pages::admin.pengaturan')->name('pengaturan');
     });
