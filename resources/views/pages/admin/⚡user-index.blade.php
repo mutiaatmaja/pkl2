@@ -46,9 +46,7 @@ new #[Layout('layouts.admin')] class extends Component {
             ->with(['roles:id,name,display_name', 'siswa:id,user_id,nis'])
             ->when($this->search !== '', function ($query): void {
                 $query->where(function ($nestedQuery): void {
-                    $nestedQuery
-                        ->where('name', 'like', '%'.$this->search.'%')
-                        ->orWhere('email', 'like', '%'.$this->search.'%');
+                    $nestedQuery->where('name', 'like', '%' . $this->search . '%')->orWhere('email', 'like', '%' . $this->search . '%');
                 });
             })
             ->when($this->filterRole !== '', function ($query): void {
@@ -110,7 +108,7 @@ new #[Layout('layouts.admin')] class extends Component {
             $payload = [
                 'name' => $this->name,
                 'email' => $this->email,
-                'email_verified_at' => $this->email_verified ? ($user->email_verified_at ?? now()) : null,
+                'email_verified_at' => $this->email_verified ? $user->email_verified_at ?? now() : null,
             ];
 
             if ($this->password !== '') {
@@ -157,9 +155,7 @@ new #[Layout('layouts.admin')] class extends Component {
         }
 
         if ($user->hasRole('admin')) {
-            $adminCount = User::query()
-                ->whereHas('roles', fn ($query) => $query->where('name', 'admin'))
-                ->count();
+            $adminCount = User::query()->whereHas('roles', fn($query) => $query->where('name', 'admin'))->count();
 
             if ($adminCount <= 1) {
                 $this->showDeleteModal = false;
@@ -217,7 +213,8 @@ new #[Layout('layouts.admin')] class extends Component {
     </div>
 
     @if ($toast)
-        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false; $wire.dismissToast(); }, 3500)"
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false;
+            $wire.dismissToast(); }, 3500)"
             class="fixed right-5 top-5 z-50 flex items-center gap-3 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-lg
                    {{ $toastType === 'success' ? 'bg-emerald-500' : 'bg-red-500' }}">
             <span>{{ $toastType === 'success' ? '✓' : '✕' }}</span>
@@ -233,7 +230,8 @@ new #[Layout('layouts.admin')] class extends Component {
                 class="rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400">
                 <option value="">Semua Role</option>
                 @foreach ($this->roleOptions as $roleOption)
-                    <option value="{{ $roleOption->name }}">{{ $roleOption->display_name ?: ucfirst($roleOption->name) }}</option>
+                    <option value="{{ $roleOption->name }}">
+                        {{ $roleOption->display_name ?: ucfirst($roleOption->name) }}</option>
                 @endforeach
             </select>
         </div>
@@ -241,7 +239,8 @@ new #[Layout('layouts.admin')] class extends Component {
 
     <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div class="overflow-hidden rounded-xl border border-slate-200">
-            <div class="grid grid-cols-12 bg-slate-100 px-3 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 sm:px-4">
+            <div
+                class="grid grid-cols-12 bg-slate-100 px-3 py-2 text-xs font-bold uppercase tracking-wider text-slate-600 sm:px-4">
                 <div class="col-span-3">Nama</div>
                 <div class="col-span-3">Email</div>
                 <div class="col-span-2 text-center">Role</div>
@@ -252,7 +251,8 @@ new #[Layout('layouts.admin')] class extends Component {
             <div class="max-h-[560px] overflow-y-auto">
                 @forelse ($this->userList as $user)
                     @php($mainRole = $user->roles->first())
-                    <div wire:key="user-row-{{ $user->id }}" class="grid grid-cols-12 items-center border-t border-slate-100 px-3 py-2 text-sm text-slate-700 sm:px-4">
+                    <div wire:key="user-row-{{ $user->id }}"
+                        class="grid grid-cols-12 items-center border-t border-slate-100 px-3 py-2 text-sm text-slate-700 sm:px-4">
                         <div class="col-span-3 pr-2">
                             <p class="font-semibold text-slate-900">{{ $user->name }}</p>
                             @if ($user->siswa)
@@ -261,27 +261,32 @@ new #[Layout('layouts.admin')] class extends Component {
                         </div>
                         <div class="col-span-3 pr-2 text-slate-600">{{ $user->email }}</div>
                         <div class="col-span-2 text-center">
-                            <span class="inline-flex rounded-full px-2 py-0.5 text-xs font-bold
+                            <span
+                                class="inline-flex rounded-full px-2 py-0.5 text-xs font-bold
                                 {{ $mainRole?->name === 'admin' ? 'bg-cyan-100 text-cyan-700' : 'bg-indigo-100 text-indigo-700' }}">
                                 {{ $mainRole?->display_name ?: ucfirst($mainRole?->name ?? '-') }}
                             </span>
                         </div>
                         <div class="col-span-2 text-center">
-                            <span class="inline-flex rounded-full px-2 py-0.5 text-xs font-bold {{ $user->email_verified_at ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">
+                            <span
+                                class="inline-flex rounded-full px-2 py-0.5 text-xs font-bold {{ $user->email_verified_at ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700' }}">
                                 {{ $user->email_verified_at ? 'Terverifikasi' : 'Belum Verifikasi' }}
                             </span>
                         </div>
                         <div class="col-span-2 text-right">
                             <div class="inline-flex items-center gap-1.5">
-                                <button wire:click="openEdit({{ $user->id }})" wire:loading.attr="disabled" wire:target="openEdit({{ $user->id }})"
+                                <button wire:click="openEdit({{ $user->id }})" wire:loading.attr="disabled"
+                                    wire:target="openEdit({{ $user->id }})"
                                     class="inline-flex min-w-14 items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-cyan-300 hover:text-cyan-700 disabled:opacity-70">
                                     <span wire:loading.remove wire:target="openEdit({{ $user->id }})">Edit</span>
                                     <span wire:loading wire:target="openEdit({{ $user->id }})"
                                         class="h-3 w-3 animate-spin rounded-full border-2 border-slate-400 border-t-transparent"></span>
                                 </button>
-                                <button wire:click="confirmDelete({{ $user->id }})" wire:loading.attr="disabled" wire:target="confirmDelete({{ $user->id }})"
+                                <button wire:click="confirmDelete({{ $user->id }})" wire:loading.attr="disabled"
+                                    wire:target="confirmDelete({{ $user->id }})"
                                     class="inline-flex min-w-14 items-center justify-center gap-1.5 rounded-lg border border-red-100 bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 transition hover:bg-red-100 disabled:opacity-70">
-                                    <span wire:loading.remove wire:target="confirmDelete({{ $user->id }})">Hapus</span>
+                                    <span wire:loading.remove
+                                        wire:target="confirmDelete({{ $user->id }})">Hapus</span>
                                     <span wire:loading wire:target="confirmDelete({{ $user->id }})"
                                         class="h-3 w-3 animate-spin rounded-full border-2 border-red-300 border-t-transparent"></span>
                                 </button>
@@ -300,10 +305,12 @@ new #[Layout('layouts.admin')] class extends Component {
     </div>
 
     @if ($showModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="$set('showModal', false)">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+            wire:click.self="$set('showModal', false)">
             <div class="w-full max-w-xl rounded-2xl bg-white p-6 shadow-2xl">
                 <div class="mb-5 flex items-center justify-between">
-                    <h2 class="text-lg font-extrabold text-slate-900">{{ $editingId ? 'Edit User' : 'Tambah User' }}</h2>
+                    <h2 class="text-lg font-extrabold text-slate-900">{{ $editingId ? 'Edit User' : 'Tambah User' }}
+                    </h2>
                     <button wire:click="$set('showModal', false)"
                         class="rounded-lg p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700">✕</button>
                 </div>
@@ -329,11 +336,13 @@ new #[Layout('layouts.admin')] class extends Component {
 
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div>
-                            <label class="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-600">Role</label>
+                            <label
+                                class="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-600">Role</label>
                             <select wire:model="role"
                                 class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400">
                                 @foreach ($this->roleOptions as $roleOption)
-                                    <option value="{{ $roleOption->name }}">{{ $roleOption->display_name ?: ucfirst($roleOption->name) }}</option>
+                                    <option value="{{ $roleOption->name }}">
+                                        {{ $roleOption->display_name ?: ucfirst($roleOption->name) }}</option>
                                 @endforeach
                             </select>
                             @error('role')
@@ -342,7 +351,8 @@ new #[Layout('layouts.admin')] class extends Component {
                         </div>
 
                         <div>
-                            <label class="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-600">Status Email</label>
+                            <label class="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-600">Status
+                                Email</label>
                             <label class="mt-2 inline-flex items-center gap-2 text-sm text-slate-700">
                                 <input wire:model="email_verified" type="checkbox"
                                     class="rounded border-slate-300 text-cyan-600 focus:ring-cyan-500">
@@ -367,7 +377,9 @@ new #[Layout('layouts.admin')] class extends Component {
                         </div>
 
                         <div>
-                            <label class="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-600">Konfirmasi Password</label>
+                            <label
+                                class="mb-1 block text-xs font-bold uppercase tracking-wide text-slate-600">Konfirmasi
+                                Password</label>
                             <input wire:model="password_confirmation" type="password"
                                 class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400">
                         </div>
@@ -391,7 +403,8 @@ new #[Layout('layouts.admin')] class extends Component {
     @endif
 
     @if ($showDeleteModal)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="$set('showDeleteModal', false)">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+            wire:click.self="$set('showDeleteModal', false)">
             <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
                 <h2 class="text-lg font-extrabold text-slate-900">Konfirmasi Hapus</h2>
                 <p class="mt-2 text-sm text-slate-600">Akun user yang dihapus tidak dapat dikembalikan. Lanjutkan?</p>
