@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 12pt;
+            font-size: 11pt;
             line-height: 1.5;
         }
 
@@ -28,7 +28,7 @@
         .table td {
             border: 1px solid black;
             padding: 5px;
-            font-size: 12pt;
+            font-size: 11pt;
         }
 
         .fit-content {
