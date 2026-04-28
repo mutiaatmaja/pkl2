@@ -6,146 +6,124 @@
     <title>Surat Permohonan PKL</title>
     <style>
         body {
-            font-family: DejaVu Sans, Arial, sans-serif;
-            color: #111827;
+            font-family: 'Times New Roman', serif;
             font-size: 12px;
-            line-height: 1.55;
+            line-height: 1.5;
         }
 
-        .container {
-            width: 100%;
-            max-width: 760px;
-            margin: 0 auto;
-        }
-
-        .kop-default {
-            border-bottom: 3px solid #0e7490;
-            padding-bottom: 10px;
-            margin-bottom: 16px;
-        }
-
-        .kop-default .sekolah-name {
-            font-size: 18px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #0e7490;
-        }
-
-        .kop-default .sekolah-sub {
-            font-size: 11px;
-            color: #374151;
-            margin-top: 2px;
-        }
-
-        .kop-default .sekolah-contact {
-            font-size: 10px;
-            color: #6b7280;
-            margin-top: 2px;
-        }
-
-        .kop-image {
-            width: 100%;
-            margin-bottom: 8px;
-        }
-
-        .title {
+        .center {
             text-align: center;
-            font-weight: 700;
-            text-decoration: underline;
-            margin-top: 20px;
-            margin-bottom: 2px;
         }
 
-        .subtitle {
+        .kop {
             text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .meta {
-            margin-bottom: 14px;
+            border-bottom: 2px solid black;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
         }
 
         .table {
             width: 100%;
             border-collapse: collapse;
-            margin: 12px 0 18px;
+            margin-top: 10px;
         }
 
         .table th,
         .table td {
-            border: 1px solid #334155;
-            padding: 6px 8px;
-            vertical-align: top;
+            border: 1px solid black;
+            padding: 5px;
+            font-size: 11px;
         }
 
-        .table th {
-            background: #f1f5f9;
-            font-weight: 700;
-        }
-
-        .footer {
-            margin-top: 36px;
-            text-align: right;
-        }
-
-        .ttd-img {
-            max-height: 70px;
-            width: auto;
-            margin: 4px 0;
+        .ttd {
+            width: 100%;
+            margin-top: 40px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <div>
+        @php
+            $nomorSurat = str_replace(
+                ['{tahun}', '{nomor}'],
+                [$tanggal->format('Y'), $dudi->id],
+                $pengaturan->nomor_surat,
+            );
+            $periodeMulai = $pengaturan->periode_pkl_mulai;
+            $periodeSelesai = $pengaturan->periode_pkl_selesai;
+            $periodePklText = null;
+            $tujuanKota = 'Pontianak';
 
-        {{-- Kop Surat --}}
-        @if ($kopSuratPath && file_exists($kopSuratPath))
-            <img src="{{ $kopSuratPath }}" alt="Kop Surat" class="kop-image">
-        @else
-            <div class="kop-default">
-                <div class="sekolah-name">SMK Negeri 7 Pontianak</div>
-                <div class="sekolah-sub">Sekolah Menengah Kejuruan Negeri 7 Kota Pontianak</div>
-                <div class="sekolah-contact">Jl. Sungai Raya Dalam, Pontianak &bull; Telp. (0561) 000000 &bull; Email:
-                    smkn7pontianak@example.com</div>
-            </div>
-        @endif
+            if ($periodeMulai && $periodeSelesai) {
+                $periodePklText =
+                    $periodeMulai->translatedFormat('d F Y') . ' s.d. ' . $periodeSelesai->translatedFormat('d F Y');
+            } elseif ($periodeMulai) {
+                $periodePklText = 'mulai ' . $periodeMulai->translatedFormat('d F Y');
+            } elseif ($periodeSelesai) {
+                $periodePklText = 'sampai ' . $periodeSelesai->translatedFormat('d F Y');
+            }
 
-        <div class="title">SURAT PERMOHONAN PRAKTIK KERJA LAPANGAN</div>
-        <div class="subtitle">
-            Nomor:
-            {{ str_replace(['{tahun}', '{nomor}'], [$tanggal->format('Y'), $dudi->id], $pengaturan->nomor_surat) }}
+            $ttdNamaJabatan = $pengaturan->jabatan_penandatangan ?: 'WAKA HUMAS';
+            $ttdNamaPejabat = $pengaturan->pejabat_penandatangan ?: '-';
+            $ttdNip = $pengaturan->nip_penandatangan ?: null;
+        @endphp
+
+        <div class="kop">
+            <div><strong>PEMERINTAH PROVINSI KALIMANTAN BARAT</strong></div>
+            <div><strong>SMK NEGERI 7 PONTIANAK</strong></div>
+            <div>Jalan Tanjung Raya II Pontianak Timur, Kalimantan Barat 78232</div>
+            <div>Website: smkn7ptk.sch.id | WA: 08115784200 | NPSN 30107398</div>
         </div>
 
-        <p class="meta">
-            {{ $pengaturan->lokasi_penerbitan }}, {{ $tanggal->translatedFormat('d F Y') }}
+        <table>
+            <tr>
+                <td style="width: 80px;">Nomor</td>
+                <td style="width: 10px;">:</td>
+                <td>{{ $nomorSurat }}</td>
+            </tr>
+            <tr>
+                <td>Hal</td>
+                <td>:</td>
+                <td>Permohonan Praktek Kerja Lapangan (PKL)</td>
+            </tr>
+            <tr>
+                <td>Lampiran</td>
+                <td>:</td>
+                <td>-</td>
+            </tr>
+        </table>
+
+        <br>
+
+        <p>
+            Kepada <br>
+            Yth. {{ $dudi->panggilan_pimpinan }} {{ $dudi->name }} <br>
+            di <br>
+            {{ $tujuanKota }}
         </p>
 
         <p>
-            Kepada Yth.<br>
-            {{ $dudi->panggilan_pimpinan }} {{ $dudi->name }}<br>
-            di Tempat
+            Dengan Hormat,
         </p>
 
         <p>
-            Dengan hormat,
-        </p>
-
-        <p>
-            Sehubungan dengan program pembelajaran Praktik Kerja Lapangan (PKL), kami memohon kesediaan
-            {{ $dudi->name }} untuk menerima peserta didik dari SMKN 7 Pontianak sebagai peserta PKL.
-            Adapun nama-nama peserta didik yang kami usulkan adalah sebagai berikut:
+            Dalam rangka pelaksanaan Pendidikan Vokasi terkait dengan program link and match guna meningkatkan
+            kompetensi, peserta didik diwajibkan untuk melaksanakan Praktik Kerja Lapangan (PKL).
+            Oleh karena itu kami mengajukan permohonan kepada Bapak/Ibu agar dapat menerima peserta didik kami sebagai
+            berikut:
         </p>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th style="width: 40px; text-align: center;">No</th>
+                    <th style="width: 34px;">No</th>
                     <th>Nama</th>
-                    <th style="width: 120px;">NIS</th>
-                    <th style="width: 120px;">NISN</th>
-                    <th style="width: 130px;">Kelas</th>
+                    <th style="width: 42px;">L/P</th>
+                    <th style="width: 95px;">NISN</th>
+                    <th>Alamat</th>
+                    <th style="width: 95px;">No HP</th>
+                    <th style="width: 110px;">Jurusan</th>
                 </tr>
             </thead>
             <tbody>
@@ -153,37 +131,48 @@
                     <tr>
                         <td style="text-align: center;">{{ $index + 1 }}</td>
                         <td>{{ $siswa->user?->name ?? '-' }}</td>
-                        <td>{{ $siswa->nis }}</td>
+                        <td style="text-align: center;">{{ $siswa->jenis_kelamin ?? '-' }}</td>
                         <td>{{ $siswa->nisn }}</td>
-                        <td>{{ $siswa->kelas?->name ?? '-' }}</td>
+                        <td>{{ $siswa->alamat ?? '-' }}</td>
+                        <td>{{ $siswa->no_hp ?? '-' }}</td>
+                        <td>{{ $siswa->jurusan?->name ?? '-' }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" style="text-align: center;">Belum ada peserta terdaftar.</td>
+                        <td colspan="7" style="text-align: center;">Belum ada peserta terdaftar.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
 
         <p>
-            Demikian surat permohonan ini kami sampaikan. Atas perhatian dan kerja sama Bapak/Ibu, kami
-            ucapkan terima kasih.
+            Adapun pelaksanaan PKL direncanakan pada tanggal {{ $periodePklText ?? '-' }}.
         </p>
 
-        <div class="footer">
-            {{ $pengaturan->lokasi_penerbitan }}, {{ $tanggal->translatedFormat('d F Y') }}<br>
-            {{ $pengaturan->jabatan_penandatangan }},<br>
-            @if ($ttdPath && file_exists($ttdPath))
-                <img src="{{ $ttdPath }}" alt="Tanda Tangan" class="ttd-img">
-            @else
-                <br><br><br><br>
-            @endif
-            <strong>{{ $pengaturan->pejabat_penandatangan }}</strong><br>
-            @if ($pengaturan->nip_penandatangan)
-                NIP. {{ $pengaturan->nip_penandatangan }}
-            @endif
+        <p>
+            Demikian surat permohonan ini kami ajukan, atas perhatian Bapak/Ibu kami ucapkan terima kasih.
+        </p>
+
+        <div class="ttd">
+            <div style="float:right; text-align:center;">
+                {{ $pengaturan->lokasi_penerbitan }}, {{ $tanggal->translatedFormat('d F Y') }} <br><br>
+
+                a.n Kepala SMK Negeri 7 Pontianak <br><br>
+
+                <strong>{{ $ttdNamaJabatan }}</strong><br><br><br><br>
+
+                <strong>{{ $ttdNamaPejabat }}</strong><br>
+                @if ($ttdNip)
+                    NIP. {{ $ttdNip }}
+                @endif
+            </div>
         </div>
 
+        @if ($ttdPath && file_exists($ttdPath))
+            <div style="position: absolute; right: 90px; bottom: 88px;">
+                <img src="{{ $ttdPath }}" alt="Tanda Tangan" style="max-height: 72px; width: auto;">
+            </div>
+        @endif
     </div>
 </body>
 
