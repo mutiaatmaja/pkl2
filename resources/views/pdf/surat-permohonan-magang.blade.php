@@ -31,6 +31,11 @@
             font-size: 11px;
         }
 
+        .fit-content {
+            width: 1%;
+            white-space: nowrap;
+        }
+
         .ttd {
             width: 100%;
             margin-top: 40px;
@@ -135,11 +140,11 @@
             <tr>
                 <th style="width: 34px;">No</th>
                 <th>Nama</th>
-                <th style="width: 42px;">L/P</th>
-                <th style="width: 95px;">NISN</th>
+                <th class="fit-content">L/P</th>
+                <th class="fit-content">NISN</th>
                 <th>Alamat</th>
                 <th style="width: 95px;">No HP</th>
-                <th style="width: 110px;">Kelas</th>
+                <th class="fit-content">Kelas</th>
             </tr>
         </thead>
         <tbody>
@@ -147,11 +152,11 @@
                 <tr>
                     <td style="text-align: center;">{{ $index + 1 }}</td>
                     <td>{{ $siswa->user?->name ?? '-' }}</td>
-                    <td style="text-align: center;">{{ $siswa->jenis_kelamin ?? '-' }}</td>
-                    <td>{{ $siswa->nisn }}</td>
+                    <td class="fit-content" style="text-align: center;">{{ $siswa->jenis_kelamin ?? '-' }}</td>
+                    <td class="fit-content">{{ $siswa->nisn }}</td>
                     <td>{{ $siswa->alamat ?? '-' }}</td>
                     <td>{{ $siswa->no_hp ?? '-' }}</td>
-                    <td>{{ $siswa->kelas?->name ?? '-' }}</td>
+                    <td class="fit-content">{{ $siswa->kelas?->name ?? '-' }}</td>
                 </tr>
             @empty
                 <tr>
