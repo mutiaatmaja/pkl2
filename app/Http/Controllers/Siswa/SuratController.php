@@ -23,7 +23,7 @@ class SuratController extends Controller
 
         $dudi->load([
             'siswas' => fn ($query) => $query
-                ->with(['user:id,name', 'kelas:id,name'])
+                ->with(['user:id,name', 'kelas:id,name', 'jurusan:id,name'])
                 ->orderBy('nis'),
         ]);
 

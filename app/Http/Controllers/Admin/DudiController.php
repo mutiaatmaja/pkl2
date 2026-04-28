@@ -8,6 +8,7 @@ use App\Models\Pengaturan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+
 use function Spatie\LaravelPdf\Support\pdf;
 
 class DudiController extends Controller
@@ -16,7 +17,7 @@ class DudiController extends Controller
     {
         $dudi->load([
             'siswas' => fn ($query) => $query
-                ->with(['user:id,name', 'kelas:id,name'])
+                ->with(['user:id,name', 'kelas:id,name', 'jurusan:id,name'])
                 ->orderBy('nis'),
         ]);
 

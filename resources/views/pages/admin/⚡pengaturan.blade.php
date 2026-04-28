@@ -138,6 +138,29 @@ new #[Layout('layouts.admin')] class extends Component {
         $this->toast = $message;
         $this->toastType = $type;
     }
+
+    public function imagePreviewSrc(?string $relativePath): ?string
+    {
+        if (!$relativePath) {
+            return null;
+        }
+
+        $absolutePath = storage_path('app/public/' . $relativePath);
+
+        if (!is_file($absolutePath)) {
+            return null;
+        }
+
+        $imageData = file_get_contents($absolutePath);
+
+        if ($imageData === false) {
+            return null;
+        }
+
+        $mimeType = mime_content_type($absolutePath) ?: 'image/png';
+
+        return 'data:' . $mimeType . ';base64,' . base64_encode($imageData);
+    }
 };
 ?>
 
@@ -180,7 +203,7 @@ new #[Layout('layouts.admin')] class extends Component {
                         Format Nomor Surat
                     </label>
                     <input wire:model="nomor_surat" type="text" placeholder="421.5/SMKN7-PKL/{tahun}/{nomor}"
-                        class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('nomor_surat') border-red-400 @enderror">
+                        class="w-full rounded-xl border {{ $errors->has('nomor_surat') ? 'border-red-400' : 'border-slate-200' }} px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100">
                     <p class="mt-1 text-xs text-slate-400">Gunakan <code
                             class="rounded bg-slate-100 px-1">{tahun}</code> dan <code
                             class="rounded bg-slate-100 px-1">{nomor}</code> sebagai placeholder dinamis.</p>
@@ -195,7 +218,7 @@ new #[Layout('layouts.admin')] class extends Component {
                         Lokasi Penerbitan Surat
                     </label>
                     <input wire:model="lokasi_penerbitan" type="text" placeholder="Pontianak"
-                        class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('lokasi_penerbitan') border-red-400 @enderror">
+                        class="w-full rounded-xl border {{ $errors->has('lokasi_penerbitan') ? 'border-red-400' : 'border-slate-200' }} px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100">
                     @error('lokasi_penerbitan')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -208,7 +231,7 @@ new #[Layout('layouts.admin')] class extends Component {
                         <span class="ml-1 text-xs font-normal text-slate-400">(opsional, kosong = tanggal cetak)</span>
                     </label>
                     <input wire:model="tanggal_surat" type="date"
-                        class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('tanggal_surat') border-red-400 @enderror">
+                        class="w-full rounded-xl border {{ $errors->has('tanggal_surat') ? 'border-red-400' : 'border-slate-200' }} px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100">
                     @error('tanggal_surat')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -219,7 +242,7 @@ new #[Layout('layouts.admin')] class extends Component {
                         Periode PKL Mulai
                     </label>
                     <input wire:model="periode_pkl_mulai" type="date"
-                        class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('periode_pkl_mulai') border-red-400 @enderror">
+                        class="w-full rounded-xl border {{ $errors->has('periode_pkl_mulai') ? 'border-red-400' : 'border-slate-200' }} px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100">
                     @error('periode_pkl_mulai')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -230,7 +253,7 @@ new #[Layout('layouts.admin')] class extends Component {
                         Periode PKL Selesai
                     </label>
                     <input wire:model="periode_pkl_selesai" type="date"
-                        class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('periode_pkl_selesai') border-red-400 @enderror">
+                        class="w-full rounded-xl border {{ $errors->has('periode_pkl_selesai') ? 'border-red-400' : 'border-slate-200' }} px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100">
                     @error('periode_pkl_selesai')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -248,7 +271,7 @@ new #[Layout('layouts.admin')] class extends Component {
                 <div>
                     <label class="mb-1.5 block text-sm font-semibold text-slate-700">Nama Pejabat</label>
                     <input wire:model="pejabat_penandatangan" type="text" placeholder="Kepala SMKN 7 Pontianak"
-                        class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('pejabat_penandatangan') border-red-400 @enderror">
+                        class="w-full rounded-xl border {{ $errors->has('pejabat_penandatangan') ? 'border-red-400' : 'border-slate-200' }} px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100">
                     @error('pejabat_penandatangan')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -257,7 +280,7 @@ new #[Layout('layouts.admin')] class extends Component {
                 <div>
                     <label class="mb-1.5 block text-sm font-semibold text-slate-700">Jabatan</label>
                     <input wire:model="jabatan_penandatangan" type="text" placeholder="Kepala Sekolah"
-                        class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('jabatan_penandatangan') border-red-400 @enderror">
+                        class="w-full rounded-xl border {{ $errors->has('jabatan_penandatangan') ? 'border-red-400' : 'border-slate-200' }} px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100">
                     @error('jabatan_penandatangan')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -266,7 +289,7 @@ new #[Layout('layouts.admin')] class extends Component {
                 <div class="sm:col-span-2">
                     <label class="mb-1.5 block text-sm font-semibold text-slate-700">NIP Penandatangan</label>
                     <input wire:model="nip_penandatangan" type="text" placeholder="198001012006041001"
-                        class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100 @error('nip_penandatangan') border-red-400 @enderror">
+                        class="w-full rounded-xl border {{ $errors->has('nip_penandatangan') ? 'border-red-400' : 'border-slate-200' }} px-4 py-2.5 text-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-100">
                     @error('nip_penandatangan')
                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -302,11 +325,15 @@ new #[Layout('layouts.admin')] class extends Component {
 
             <div class="mt-4">
                 @if ($currentTtdPath && !$ttdUpload)
+                    @php($currentTtdSrc = $this->imagePreviewSrc($currentTtdPath))
                     <p class="mb-2 text-sm font-semibold text-slate-600">Tanda tangan saat ini:</p>
                     <div class="flex items-start gap-4">
                         <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-2">
-                            <img src="{{ Storage::disk('public')->url($currentTtdPath) }}" alt="TTD Pejabat"
-                                class="h-24 w-auto object-contain">
+                            @if ($currentTtdSrc)
+                                <img src="{{ $currentTtdSrc }}" alt="TTD Pejabat" class="h-24 w-auto object-contain">
+                            @else
+                                <p class="px-3 py-5 text-xs text-slate-500">File tanda tangan tidak dapat dibaca.</p>
+                            @endif
                         </div>
                         <button type="button" wire:click="removeTtd" wire:loading.attr="disabled"
                             wire:target="removeTtd"
@@ -355,11 +382,15 @@ new #[Layout('layouts.admin')] class extends Component {
                 surat. Jika tidak diupload, kop surat default akan digunakan.</p>
 
             @if ($currentKopSuratPath && !$kopSuratUpload)
+                @php($currentKopSrc = $this->imagePreviewSrc($currentKopSuratPath))
                 <p class="mb-2 text-sm font-semibold text-slate-600">Kop surat saat ini:</p>
                 <div class="flex items-start gap-4">
                     <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-2 w-full max-w-md">
-                        <img src="{{ Storage::disk('public')->url($currentKopSuratPath) }}" alt="Kop Surat"
-                            class="h-24 w-full object-contain">
+                        @if ($currentKopSrc)
+                            <img src="{{ $currentKopSrc }}" alt="Kop Surat" class="h-24 w-full object-contain">
+                        @else
+                            <p class="px-3 py-5 text-xs text-slate-500">File kop surat tidak dapat dibaca.</p>
+                        @endif
                     </div>
                     <button type="button" wire:click="removeKopSurat" wire:loading.attr="disabled"
                         wire:target="removeKopSurat"

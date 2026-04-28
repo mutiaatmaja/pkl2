@@ -67,14 +67,38 @@
             $ttdNamaJabatan = $pengaturan->jabatan_penandatangan ?: 'WAKA HUMAS';
             $ttdNamaPejabat = $pengaturan->pejabat_penandatangan ?: '-';
             $ttdNip = $pengaturan->nip_penandatangan ?: null;
+
+            $kopSuratBase64 = null;
+            if ($kopSuratPath && is_file($kopSuratPath)) {
+                $kopSuratData = file_get_contents($kopSuratPath);
+                if ($kopSuratData !== false) {
+                    $kopMimeType = mime_content_type($kopSuratPath) ?: 'image/png';
+                    $kopSuratBase64 = 'data:' . $kopMimeType . ';base64,' . base64_encode($kopSuratData);
+                }
+            }
+
+            $ttdBase64 = null;
+            if ($ttdPath && is_file($ttdPath)) {
+                $ttdData = file_get_contents($ttdPath);
+                if ($ttdData !== false) {
+                    $ttdMimeType = mime_content_type($ttdPath) ?: 'image/png';
+                    $ttdBase64 = 'data:' . $ttdMimeType . ';base64,' . base64_encode($ttdData);
+                }
+            }
         @endphp
 
-        <div class="kop">
-            <div><strong>PEMERINTAH PROVINSI KALIMANTAN BARAT</strong></div>
-            <div><strong>SMK NEGERI 7 PONTIANAK</strong></div>
-            <div>Jalan Tanjung Raya II Pontianak Timur, Kalimantan Barat 78232</div>
-            <div>Website: smkn7ptk.sch.id | WA: 08115784200 | NPSN 30107398</div>
-        </div>
+        @if ($kopSuratBase64)
+            <div style="margin-bottom: 15px;">
+                <img src="{{ $kopSuratBase64 }}" alt="Kop Surat" style="width: 100%; height: auto;">
+            </div>
+        @else
+            <div class="kop">
+                <div><strong>PEMERINTAH PROVINSI KALIMANTAN BARAT</strong></div>
+                <div><strong>SMK NEGERI 7 PONTIANAK</strong></div>
+                <div>Jalan Tanjung Raya II Pontianak Timur, Kalimantan Barat 78232</div>
+                <div>Website: smkn7ptk.sch.id | WA: 08115784200 | NPSN 30107398</div>
+            </div>
+        @endif
 
         <table>
             <tr>
@@ -159,7 +183,14 @@
 
                 a.n Kepala SMK Negeri 7 Pontianak <br><br>
 
-                <strong>{{ $ttdNamaJabatan }}</strong><br><br><br><br>
+                <strong>{{ $ttdNamaJabatan }}</strong><br>
+
+                @if ($ttdBase64)
+                    <img src="{{ $ttdBase64 }}" alt="Tanda Tangan"
+                        style="max-height: 72px; width: auto; margin: 8px 0 6px;"><br>
+                @else
+                    <br><br><br><br>
+                @endif
 
                 <strong>{{ $ttdNamaPejabat }}</strong><br>
                 @if ($ttdNip)
@@ -167,12 +198,6 @@
                 @endif
             </div>
         </div>
-
-        @if ($ttdPath && file_exists($ttdPath))
-            <div style="position: absolute; right: 90px; bottom: 88px;">
-                <img src="{{ $ttdPath }}" alt="Tanda Tangan" style="max-height: 72px; width: auto;">
-            </div>
-        @endif
     </div>
 </body>
 
