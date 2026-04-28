@@ -151,7 +151,7 @@
                     <td>{{ $siswa->nisn }}</td>
                     <td>{{ $siswa->alamat ?? '-' }}</td>
                     <td>{{ $siswa->no_hp ?? '-' }}</td>
-                    <td>{{ $siswa->jurusan?->kode ?? '-' }}</td>
+                    <td>{{ $siswa->jurusan?->code ?? '-' }}</td>
                 </tr>
             @empty
                 <tr>
