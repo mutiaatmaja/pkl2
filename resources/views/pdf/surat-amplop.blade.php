@@ -13,7 +13,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             color: #000;
         }
 
@@ -39,7 +39,7 @@
             border: 1px solid #000;
             padding: 8px 10px;
             text-align: center;
-            font-size: 11px;
+            font-size: 12px;
             line-height: 1.35;
             box-sizing: border-box;
         }
@@ -48,7 +48,7 @@
             width: 58%;
             border-collapse: collapse;
             margin-bottom: 8px;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         .meta td {
@@ -72,7 +72,7 @@
             padding: 8px 10px;
             min-height: 2.7cm;
             box-sizing: border-box;
-            font-size: 11px;
+            font-size: 12px;
             line-height: 1.45;
         }
     </style>
