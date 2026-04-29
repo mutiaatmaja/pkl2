@@ -404,9 +404,10 @@ new #[Layout('layouts.admin')] class extends Component {
                         </td>
                         <td class="px-6 py-4">
                             @if ($siswa->dudi_id)
-                                <span
-                                    class="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700">Sudah
-                                    Magang</span>
+                                <a href="{{ route('admin.dudi.show', $siswa->dudi_id) }}" wire:navigate
+                                    class="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 hover:text-emerald-800">
+                                    Sudah Magang
+                                </a>
                             @elseif (str_ends_with($siswa->user?->email ?? '', '@claim.smkn7.local'))
                                 <span
                                     class="inline-flex rounded-full bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-600">Belum
