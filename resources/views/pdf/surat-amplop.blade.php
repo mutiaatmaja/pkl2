@@ -68,7 +68,6 @@
         .target {
             width: 42%;
             margin-left: auto;
-
             padding: 8px 10px;
             min-height: 2.7cm;
             box-sizing: border-box;
@@ -95,38 +94,40 @@
     <div class="envelope">
         <div class="kop">
             @if ($kopSuratBase64)
-            <img src="{{ $kopSuratBase64 }}" alt="Kop Surat" width="80%" @else <div class="kop-fallback">
-                <div><strong>PEMERINTAH PROVINSI KALIMANTAN BARAT</strong></div>
-                <div><strong>SMK NEGERI 7 PONTIANAK</strong></div>
-                <div>Jalan Tanjung Raya II Pontianak Timur, Kalimantan Barat 78232</div>
-                <div>Website: smkn7ptk.sch.id | WA: 08115784200</div>
+                <img src="{{ $kopSuratBase64 }}" alt="Kop Surat" width="80%">
+            @else
+                <div class="kop-fallback">
+                    <div><strong>PEMERINTAH PROVINSI KALIMANTAN BARAT</strong></div>
+                    <div><strong>SMK NEGERI 7 PONTIANAK</strong></div>
+                    <div>Jalan Tanjung Raya II Pontianak Timur, Kalimantan Barat 78232</div>
+                    <div>Website: smkn7ptk.sch.id | WA: 08115784200</div>
+                </div>
+            @endif
         </div>
-        @endif
-    </div>
 
-    <table class="meta">
-        <tr>
-            <td class="label">Nomor</td>
-            <td class="separator">:</td>
-            <td>{{ $nomorSurat }}</td>
-        </tr>
-        <tr>
-            <td class="label">Hal</td>
-            <td class="separator">:</td>
-            <td>Permohonan PKL</td>
-        </tr>
-        <tr>
-            <td class="label">Lampiran</td>
-            <td class="separator">:</td>
-            <td>-</td>
-        </tr>
-    </table>
+        <table class="meta">
+            <tr>
+                <td class="label">Nomor</td>
+                <td class="separator">:</td>
+                <td>{{ $nomorSurat }}</td>
+            </tr>
+            <tr>
+                <td class="label">Hal</td>
+                <td class="separator">:</td>
+                <td>Permohonan PKL</td>
+            </tr>
+            <tr>
+                <td class="label">Lampiran</td>
+                <td class="separator">:</td>
+                <td>-</td>
+            </tr>
+        </table>
 
-    <div class="target">
-        Kepada Yth.<br>
-        {{ $dudi->panggilan_pimpinan }} {{ $dudi->name }}<br>
-        {!! nl2br(e($dudi->address)) !!}
-    </div>
+        <div class="target">
+            Kepada Yth.<br>
+            {{ $dudi->panggilan_pimpinan }} {{ $dudi->name }}<br>
+            {!! nl2br(e($dudi->address)) !!}
+        </div>
     </div>
 </body>
 
