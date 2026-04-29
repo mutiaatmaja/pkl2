@@ -12,7 +12,8 @@
 
         body {
             margin: 0;
-            font-family: 'Times New Roman', serif;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
             color: #000;
         }
 
@@ -24,7 +25,7 @@
         }
 
         .kop {
-            width: 100%;
+            width: 78%;
             margin-bottom: 8px;
         }
 
@@ -94,7 +95,7 @@
     <div class="envelope">
         <div class="kop">
             @if ($kopSuratBase64)
-                <img src="{{ $kopSuratBase64 }}" alt="Kop Surat" width="80%">
+                <img src="{{ $kopSuratBase64 }}" alt="Kop Surat">
             @else
                 <div class="kop-fallback">
                     <div><strong>PEMERINTAH PROVINSI KALIMANTAN BARAT</strong></div>
