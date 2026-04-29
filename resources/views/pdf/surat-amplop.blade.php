@@ -10,6 +10,13 @@
             margin: 0;
         }
 
+        html,
+        body {
+            width: 25cm;
+            height: 10cm;
+            overflow: hidden;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -31,7 +38,9 @@
 
         .kop img {
             width: 100%;
-            height: auto;
+            max-height: 2.1cm;
+            object-fit: contain;
+            object-position: left top;
             display: block;
         }
 
@@ -70,7 +79,7 @@
             width: 42%;
             margin-left: auto;
             padding: 8px 10px;
-            min-height: 2.7cm;
+            min-height: 2.2cm;
             box-sizing: border-box;
             font-size: 11px;
             line-height: 1.45;
