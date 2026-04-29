@@ -6,7 +6,7 @@
     <div class="space-y-6">
         <div>
             <p class="text-xs font-bold tracking-[0.22em] text-cyan-700">PKL SMKN 7 PONTIANAK</p>
-            <h1 class="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">Dashboard</h1>
+            <h1 class="mt-1 text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">Dashboard</h1>
             <p class="mt-1 text-sm text-slate-500">Selamat datang kembali, {{ auth()->user()->name }}.</p>
         </div>
 
