@@ -21,7 +21,8 @@ class DudiController extends Controller
 
         return pdf()
             ->view('pdf.surat-permohonan-magang', $pdfData)
-            ->format('a4')
+            ->paperSize(210, 330, 'mm')
+            ->margins(top: 12, right: 12, bottom: 10, left: 12, unit: 'mm')
             ->name($pdfFileName)
             ->download();
     }

@@ -5,6 +5,11 @@
     <meta charset="utf-8">
     <title>Surat Permohonan PKL</title>
     <style>
+        @page {
+            size: 210mm 330mm;
+            margin: 12mm 12mm 10mm 12mm;
+        }
+
         body {
             font-family: Arial, sans-serif;
             font-size: 11pt;
@@ -29,6 +34,7 @@
             border: 1px solid black;
             padding: 5px;
             font-size: 11pt;
+            line-height: 1;
         }
 
         .fit-content {
@@ -38,7 +44,7 @@
 
         .ttd {
             width: 100%;
-            margin-top: 40px;
+            margin-top: 22px;
         }
     </style>
 </head>
@@ -176,9 +182,9 @@
 
     <div class="ttd">
         <div style="float:right; text-align:center;">
-            {{ $pengaturan->lokasi_penerbitan }}, {{ $tanggal->translatedFormat('d F Y') }} <br><br>
+            {{ $pengaturan->lokasi_penerbitan }}, {{ $tanggal->translatedFormat('d F Y') }} <br>
 
-            a.n Kepala SMK Negeri 7 Pontianak <br><br>
+            a.n Kepala SMK Negeri 7 Pontianak <br>
 
             <strong>{{ $ttdNamaJabatan }}</strong><br>
 
@@ -186,7 +192,7 @@
                 <img src="{{ $ttdBase64 }}" alt="Tanda Tangan"
                     style="max-height: 72px; width: auto; margin: 8px 0 6px;"><br>
             @else
-                <br><br><br><br>
+                <br><br>
             @endif
 
             <strong>{{ $ttdNamaPejabat }}</strong><br>
