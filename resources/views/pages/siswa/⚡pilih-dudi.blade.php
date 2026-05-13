@@ -46,7 +46,19 @@ new #[Layout('layouts.siswa')] class extends Component {
             <div wire:key="dudi-siswa-{{ $dudi->id }}"
                 class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div class="flex items-start justify-between gap-3">
-                    <h2 class="text-base font-extrabold text-slate-900">{{ $dudi->name }}</h2>
+                    <div>
+                        <h2 class="text-base font-extrabold text-slate-900">{{ $dudi->name }}</h2>
+                        <div class="mt-1 flex flex-wrap items-center gap-1.5">
+                            <span
+                                class="inline-flex rounded-full px-2 py-0.5 text-[11px] font-bold {{ $dudi->sudah_cetak_surat ? 'bg-cyan-100 text-cyan-700' : 'bg-slate-100 text-slate-500' }}">
+                                {{ $dudi->sudah_cetak_surat ? 'Sudah Dicetak' : 'Belum Dicetak' }}
+                            </span>
+                            <span
+                                class="inline-flex rounded-full px-2 py-0.5 text-[11px] font-bold {{ $dudi->diterima ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500' }}">
+                                {{ $dudi->diterima ? 'Diterima' : 'Belum Diterima' }}
+                            </span>
+                        </div>
+                    </div>
                     <span
                         class="inline-flex rounded-full px-2 py-0.5 text-xs font-bold {{ $isFull ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700' }}">
                         {{ $dudi->siswas_count }}/{{ $dudi->kuota }}

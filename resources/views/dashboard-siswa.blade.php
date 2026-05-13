@@ -34,6 +34,18 @@
             <p class="mt-2 text-sm text-slate-600">
                 {{ $siswa?->dudi?->name ?? 'Belum ada DUDI terpilih.' }}
             </p>
+            @if ($siswa?->dudi)
+                <div class="mt-2 flex flex-wrap items-center gap-2">
+                    <span
+                        class="inline-flex rounded-full px-3 py-1 text-xs font-bold {{ $siswa->dudi->sudah_cetak_surat ? 'bg-cyan-100 text-cyan-700' : 'bg-slate-100 text-slate-500' }}">
+                        {{ $siswa->dudi->sudah_cetak_surat ? 'Sudah Dicetak' : 'Belum Dicetak' }}
+                    </span>
+                    <span
+                        class="inline-flex rounded-full px-3 py-1 text-xs font-bold {{ $siswa->dudi->diterima ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500' }}">
+                        {{ $siswa->dudi->diterima ? 'Diterima' : 'Belum Diterima' }}
+                    </span>
+                </div>
+            @endif
             <div class="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                 <a href="{{ route('siswa.pilih-dudi') }}" wire:navigate
                     class="inline-flex w-full items-center justify-center rounded-xl bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-700 sm:w-auto">

@@ -290,6 +290,16 @@ new #[Layout('layouts.admin')] class extends Component {
                         </td>
                         <td class="px-6 py-4">
                             <p class="text-sm font-semibold text-slate-900">{{ $dudi->name }}</p>
+                            <div class="mt-1 flex items-center gap-1.5">
+                                <span title="Sudah Dicetak"
+                                    class="inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] {{ $dudi->sudah_cetak_surat ? 'bg-cyan-100 text-cyan-700' : 'bg-slate-100 text-slate-400' }}">
+                                    🖨
+                                </span>
+                                <span title="Diterima"
+                                    class="inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] {{ $dudi->diterima ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-400' }}">
+                                    ✓
+                                </span>
+                            </div>
 
                         </td>
                         <td class="px-6 py-4">

@@ -39,6 +39,16 @@ new #[Layout('layouts.app')] class extends Component {
 
             <p class="mt-4 text-xs font-bold tracking-[0.24em] text-cyan-700">DETAIL DUDI</p>
             <h1 class="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">{{ $dudi->name }}</h1>
+            <div class="mt-3 flex flex-wrap items-center gap-2">
+                <span
+                    class="inline-flex rounded-full px-3 py-1 text-xs font-bold {{ $dudi->sudah_cetak_surat ? 'bg-cyan-100 text-cyan-700' : 'bg-slate-100 text-slate-500' }}">
+                    {{ $dudi->sudah_cetak_surat ? 'Sudah Dicetak' : 'Belum Dicetak' }}
+                </span>
+                <span
+                    class="inline-flex rounded-full px-3 py-1 text-xs font-bold {{ $dudi->diterima ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500' }}">
+                    {{ $dudi->diterima ? 'Diterima' : 'Belum Diterima' }}
+                </span>
+            </div>
             <p class="mt-3 max-w-3xl text-sm text-slate-600 sm:text-base">{{ $dudi->address }}</p>
 
             <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">

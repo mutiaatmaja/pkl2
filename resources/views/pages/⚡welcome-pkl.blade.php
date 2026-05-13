@@ -28,7 +28,7 @@ new #[Layout('layouts.app')] class extends Component {
     public function getDudisProperty(): Collection
     {
         return Dudi::query()
-            ->select(['id', 'name', 'address', 'aktif', 'kuota'])
+            ->select(['id', 'name', 'address', 'aktif', 'kuota', 'sudah_cetak_surat', 'diterima'])
             ->withCount('siswas')
             ->when($this->search !== '', function ($query): void {
                 $query->where(function ($nestedQuery): void {
@@ -132,7 +132,19 @@ new #[Layout('layouts.app')] class extends Component {
                             <article wire:key="dudi-mobile-{{ $dudi->id }}"
                                 class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
                                 <div class="flex items-start justify-between gap-3">
-                                    <h3 class="text-sm font-bold text-slate-900">{{ $dudi->name }}</h3>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-slate-900">{{ $dudi->name }}</h3>
+                                        <div class="mt-1 flex items-center gap-1.5">
+                                            <span title="Sudah Dicetak"
+                                                class="inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] {{ $dudi->sudah_cetak_surat ? 'bg-cyan-100 text-cyan-700' : 'bg-slate-100 text-slate-400' }}">
+                                                🖨
+                                            </span>
+                                            <span title="Diterima"
+                                                class="inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] {{ $dudi->diterima ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-400' }}">
+                                                ✓
+                                            </span>
+                                        </div>
+                                    </div>
                                     <span
                                         class="inline-flex rounded-full px-2 py-0.5 text-[11px] font-bold {{ $dudi->aktif ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700' }}">
                                         {{ $dudi->aktif ? 'Aktif' : 'Nonaktif' }}
@@ -175,7 +187,19 @@ new #[Layout('layouts.app')] class extends Component {
                             @foreach ($this->dudis as $dudi)
                                 <div wire:key="dudi-desktop-{{ $dudi->id }}"
                                     class="grid grid-cols-12 items-center border-t border-slate-100 px-3 py-2 text-sm text-slate-700 sm:px-4">
-                                    <div class="col-span-3 pr-2 font-semibold text-slate-900">{{ $dudi->name }}</div>
+                                    <div class="col-span-3 pr-2 font-semibold text-slate-900">
+                                        <div>{{ $dudi->name }}</div>
+                                        <div class="mt-1 flex items-center gap-1.5">
+                                            <span title="Sudah Dicetak"
+                                                class="inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] {{ $dudi->sudah_cetak_surat ? 'bg-cyan-100 text-cyan-700' : 'bg-slate-100 text-slate-400' }}">
+                                                🖨
+                                            </span>
+                                            <span title="Diterima"
+                                                class="inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] {{ $dudi->diterima ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-400' }}">
+                                                ✓
+                                            </span>
+                                        </div>
+                                    </div>
                                     <div class="col-span-3 truncate pr-2 text-slate-600">{{ $dudi->address }}</div>
                                     <div class="col-span-1 text-center">
                                         <span

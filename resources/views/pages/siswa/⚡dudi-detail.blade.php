@@ -161,12 +161,24 @@ new #[Layout('layouts.siswa')] class extends Component {
         </a>
         <p class="mt-3 text-xs font-bold tracking-[0.22em] text-cyan-700">DETAIL DUDI</p>
         <h1 class="mt-1 text-2xl font-extrabold tracking-tight text-slate-900">{{ $dudi->name }}</h1>
+        <div class="mt-2 flex flex-wrap items-center gap-2">
+            <span
+                class="inline-flex rounded-full px-3 py-1 text-xs font-bold {{ $dudi->sudah_cetak_surat ? 'bg-cyan-100 text-cyan-700' : 'bg-slate-100 text-slate-500' }}">
+                {{ $dudi->sudah_cetak_surat ? 'Sudah Dicetak' : 'Belum Dicetak' }}
+            </span>
+            <span
+                class="inline-flex rounded-full px-3 py-1 text-xs font-bold {{ $dudi->diterima ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500' }}">
+                {{ $dudi->diterima ? 'Diterima' : 'Belum Diterima' }}
+            </span>
+        </div>
         <p class="mt-1 text-sm text-slate-500">{{ $dudi->address }}</p>
     </div>
 
     @if ($toast)
-        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => { show = false;
-            $wire.dismissToast(); }, 3500)"
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => {
+            show = false;
+            $wire.dismissToast();
+        }, 3500)"
             class="fixed right-5 top-5 z-50 flex items-center gap-3 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-lg
                    {{ $toastType === 'success' ? 'bg-emerald-500' : 'bg-red-500' }}">
             <span>{{ $toastType === 'success' ? '✓' : '✕' }}</span>
