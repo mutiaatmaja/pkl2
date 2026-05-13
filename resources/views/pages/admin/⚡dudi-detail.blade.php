@@ -17,6 +17,8 @@ new #[Layout('layouts.admin')] class extends Component {
     public string $searchCalon = '';
 
     public ?int $selectedSiswaId = null;
+    public bool $statusSudahCetakSurat = false;
+    public bool $statusDiterima = false;
 
     public ?string $toast = null;
     public string $toastType = 'success';
@@ -24,6 +26,18 @@ new #[Layout('layouts.admin')] class extends Component {
     public function mount(Dudi $dudi): void
     {
         $this->dudi = $dudi;
+        $this->statusSudahCetakSurat = (bool) $dudi->sudah_cetak_surat;
+        $this->statusDiterima = (bool) $dudi->diterima;
+    }
+
+    public function updatedStatusSudahCetakSurat(bool $value): void
+    {
+        $this->persistSuratStatus('sudah_cetak_surat', $value, 'Status Sudah Cetak Surat diperbarui.');
+    }
+
+    public function updatedStatusDiterima(bool $value): void
+    {
+        $this->persistSuratStatus('diterima', $value, 'Status Diterima diperbarui.');
     }
 
     #[Computed]
@@ -133,6 +147,16 @@ new #[Layout('layouts.admin')] class extends Component {
         $this->toast = $message;
         $this->toastType = $type;
     }
+
+    private function persistSuratStatus(string $field, bool $value, string $message): void
+    {
+        $this->dudi->update([
+            $field => $value,
+        ]);
+
+        $this->dudi->refresh();
+        $this->notify($message);
+    }
 };
 ?>
 
@@ -186,6 +210,31 @@ new #[Layout('layouts.admin')] class extends Component {
         <div class="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
             <p class="text-xs font-bold uppercase tracking-wider text-emerald-700">Peserta/Kuota</p>
             <p class="mt-1 text-lg font-extrabold text-emerald-900">{{ $this->pesertaCount }}/{{ $dudi->kuota }}</p>
+        </div>
+    </div>
+
+    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 class="text-base font-extrabold text-slate-900">Status Surat DUDI</h2>
+        <p class="mt-1 text-sm text-slate-500">Gunakan toggle berikut untuk menandai progres surat pada DUDI ini.</p>
+
+        <div class="mt-4 grid gap-3 sm:grid-cols-2">
+            <label class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3">
+                <div>
+                    <p class="text-sm font-semibold text-slate-800">Sudah Cetak Surat</p>
+                    <p class="text-xs text-slate-500">Menandai surat permohonan sudah dicetak.</p>
+                </div>
+                <input type="checkbox" wire:model.live="statusSudahCetakSurat"
+                    class="h-5 w-5 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500">
+            </label>
+
+            <label class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3">
+                <div>
+                    <p class="text-sm font-semibold text-slate-800">Diterima</p>
+                    <p class="text-xs text-slate-500">Menandai DUDI sudah membalas surat permohonan.</p>
+                </div>
+                <input type="checkbox" wire:model.live="statusDiterima"
+                    class="h-5 w-5 rounded border-slate-300 text-cyan-600 focus:ring-cyan-500">
+            </label>
         </div>
     </div>
 
@@ -287,7 +336,8 @@ new #[Layout('layouts.admin')] class extends Component {
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-14 text-center text-sm text-slate-400">Belum ada peserta pada
+                        <td colspan="5" class="px-6 py-14 text-center text-sm text-slate-400">Belum ada peserta
+                            pada
                             DUDI ini.</td>
                     </tr>
                 @endforelse

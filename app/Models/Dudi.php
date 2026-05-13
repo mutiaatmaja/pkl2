@@ -16,12 +16,16 @@ class Dudi extends Model
         'address',
         'aktif',
         'kuota',
+        'sudah_cetak_surat',
+        'diterima',
     ];
 
     protected function casts(): array
     {
         return [
             'aktif' => 'boolean',
+            'sudah_cetak_surat' => 'boolean',
+            'diterima' => 'boolean',
         ];
     }
 
