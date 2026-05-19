@@ -51,10 +51,7 @@
                     class="inline-flex w-full items-center justify-center rounded-xl bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-700 sm:w-auto">
                     Pilih / Ganti DUDI
                 </a>
-                <a href="{{ route('siswa.cetak-surat') }}" wire:navigate
-                    class="inline-flex w-full items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50 sm:w-auto">
-                    Cetak Surat
-                </a>
+
             </div>
         </div>
     </div>
