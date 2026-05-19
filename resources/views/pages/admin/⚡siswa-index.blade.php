@@ -408,6 +408,16 @@ new #[Layout('layouts.admin')] class extends Component {
                                     class="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 hover:text-emerald-800">
                                     Sudah Magang
                                 </a>
+                                <div class="mt-1 flex flex-wrap items-center gap-1.5">
+                                    <span
+                                        class="inline-flex rounded-full px-2 py-0.5 text-[11px] font-bold {{ $siswa->dudi?->sudah_cetak_surat ? 'bg-cyan-100 text-cyan-700' : 'bg-slate-100 text-slate-500' }}">
+                                        {{ $siswa->dudi?->sudah_cetak_surat ? 'Sudah Dicetak' : 'Belum Dicetak' }}
+                                    </span>
+                                    <span
+                                        class="inline-flex rounded-full px-2 py-0.5 text-[11px] font-bold {{ $siswa->dudi?->diterima ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500' }}">
+                                        {{ $siswa->dudi?->diterima ? 'Diterima' : 'Belum Diterima' }}
+                                    </span>
+                                </div>
                             @elseif (str_ends_with($siswa->user?->email ?? '', '@claim.smkn7.local'))
                                 <span
                                     class="inline-flex rounded-full bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-600">Belum
