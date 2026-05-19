@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::livewire('/jurusan', 'pages::admin.jurusan-index')->name('jurusan.index');
         Route::livewire('/kelas', 'pages::admin.kelas-index')->name('kelas.index');
         Route::livewire('/siswa', 'pages::admin.siswa-index')->name('siswa.index');
+        Route::livewire('/monitoring-siswa', 'pages::admin.monitoring-siswa')->name('monitoring-siswa');
         Route::get('/siswa/template', [SiswaController::class, 'downloadTemplate'])->name('siswa.template');
         Route::livewire('/dudi', 'pages::admin.dudi-index')->name('dudi.index');
         Route::get('/dudi/template', [DudiController::class, 'downloadTemplate'])->name('dudi.template');

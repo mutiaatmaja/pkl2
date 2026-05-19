@@ -84,6 +84,13 @@
                     Siswa
                 </a>
 
+                <a href="{{ route('admin.monitoring-siswa') }}" wire:navigate
+                    class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors
+                           {{ request()->routeIs('admin.monitoring-siswa') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">
+                    <span class="text-base leading-none">📊</span>
+                    Monitoring Siswa
+                </a>
+
                 <a href="{{ route('admin.dudi.index') }}" wire:navigate
                     class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors
                            {{ request()->routeIs('admin.dudi.*') ? 'bg-cyan-50 text-cyan-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}">

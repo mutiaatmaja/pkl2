@@ -36,5 +36,20 @@
                 </p>
             </div>
         </div>
+
+        <div class="rounded-2xl border border-cyan-100 bg-cyan-50 p-5 shadow-sm">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-cyan-700">Monitoring</p>
+                    <h2 class="mt-1 text-lg font-extrabold text-cyan-900">Status Siswa Magang</h2>
+                    <p class="mt-1 text-sm text-cyan-800">Lihat kategori siswa: sudah/belum magang, sudah cetak surat,
+                        dan sudah diterima.</p>
+                </div>
+                <a href="{{ route('admin.monitoring-siswa') }}" wire:navigate
+                    class="inline-flex items-center justify-center rounded-xl bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-700">
+                    Buka Monitoring Siswa
+                </a>
+            </div>
+        </div>
     </div>
 @endsection
