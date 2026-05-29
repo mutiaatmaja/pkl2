@@ -65,6 +65,12 @@ new #[Layout('layouts.siswa')] class extends Component {
         return !$this->isCurrentSiswaMemilihDudiIni && $this->pesertaCount >= $this->dudi->kuota;
     }
 
+    #[Computed]
+    public function isDudiTerkunciUntukPilihanBaru(): bool
+    {
+        return !$this->isCurrentSiswaMemilihDudiIni && ($this->dudi->sudah_cetak_surat || $this->dudi->diterima);
+    }
+
     public function requestPilihDudi(): void
     {
         $siswa = $this->currentSiswa;
@@ -83,6 +89,12 @@ new #[Layout('layouts.siswa')] class extends Component {
 
         if ($this->isCurrentSiswaMemilihDudiIni) {
             $this->notify('DUDI ini sudah menjadi pilihan Anda.', 'success');
+
+            return;
+        }
+
+        if ($this->isDudiTerkunciUntukPilihanBaru) {
+            $this->notify('DUDI ini tidak dapat dipilih karena surat sudah dicetak atau sudah diterima.', 'error');
 
             return;
         }
@@ -121,6 +133,13 @@ new #[Layout('layouts.siswa')] class extends Component {
         if ($this->isCurrentSiswaMemilihDudiIni) {
             $this->showConfirmModal = false;
             $this->notify('DUDI ini sudah menjadi pilihan Anda.', 'success');
+
+            return;
+        }
+
+        if ($this->isDudiTerkunciUntukPilihanBaru) {
+            $this->showConfirmModal = false;
+            $this->notify('DUDI ini tidak dapat dipilih karena surat sudah dicetak atau sudah diterima.', 'error');
 
             return;
         }
@@ -257,15 +276,23 @@ new #[Layout('layouts.siswa')] class extends Component {
                 </p>
             </div>
             <button wire:click="requestPilihDudi" wire:loading.attr="disabled" wire:target="requestPilihDudi"
+                @disabled($this->isDudiTerkunciUntukPilihanBaru)
                 class="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition disabled:opacity-70
-                       {{ $this->isCurrentSiswaSudahMemilihDudiLain ? 'bg-slate-500 cursor-not-allowed' : ($this->isCurrentSiswaMemilihDudiIni ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-cyan-600 hover:bg-cyan-700') }}">
+                       {{ $this->isDudiTerkunciUntukPilihanBaru || $this->isCurrentSiswaSudahMemilihDudiLain ? 'bg-slate-500 cursor-not-allowed' : ($this->isCurrentSiswaMemilihDudiIni ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-cyan-600 hover:bg-cyan-700') }}">
                 <span wire:loading.remove wire:target="requestPilihDudi">
-                    {{ $this->isCurrentSiswaMemilihDudiIni ? 'Sudah Terpilih' : 'Pilih DUDI Ini' }}
+                    {{ $this->isCurrentSiswaMemilihDudiIni ? 'Sudah Terpilih' : ($this->isDudiTerkunciUntukPilihanBaru ? 'Tidak Bisa Dipilih' : 'Pilih DUDI Ini') }}
                 </span>
                 <span wire:loading wire:target="requestPilihDudi"
                     class="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
             </button>
         </div>
+
+        @if ($this->isDudiTerkunciUntukPilihanBaru)
+            <p class="mt-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                DUDI ini tidak dapat dipilih karena statusnya sudah <strong>dicetak</strong> atau
+                <strong>diterima</strong>.
+            </p>
+        @endif
 
         @if ($this->isCurrentSiswaSudahMemilihDudiLain)
             <p class="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
