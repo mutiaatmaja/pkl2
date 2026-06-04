@@ -87,6 +87,7 @@
                         <th>Nama</th>
                         <th style="width:60px;">L/P</th>
                         <th style="width:120px;">NISN</th>
+                        <th style="width:120px;">No HP</th>
                         <th style="width:150px;">Program Keahlian</th>
                     </tr>
                 </thead>
@@ -97,6 +98,7 @@
                             <td>{{ $siswa->user?->name ?? '-' }}</td>
                             <td style="text-align:center;">{{ $siswa->jenis_kelamin ?? '-' }}</td>
                             <td>{{ $siswa->nisn }}</td>
+                            <td>{{ $siswa->no_hp ?? '-' }}</td>
                             <td>{{ $siswa->jurusan?->name ?? ($siswa->kelas?->name ?? '-') }}</td>
                         </tr>
                     @endforeach
