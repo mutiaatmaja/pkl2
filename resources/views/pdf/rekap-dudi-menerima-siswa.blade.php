@@ -53,6 +53,40 @@
         .stacked-list li+li {
             margin-top: 4px;
         }
+
+        .badge-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+
+        .badge-cetak {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-color: #93c5fd;
+        }
+
+        .badge-diterima {
+            background: #dcfce7;
+            color: #166534;
+            border-color: #86efac;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #fcd34d;
+        }
     </style>
 </head>
 
@@ -81,19 +115,19 @@
                         <span>{{ $dudi->address }}</span>
                     </td>
                     <td>
-                        @php
-                            $statuses = [];
+                        <div class="badge-wrap">
+                            @if ($dudi->sudah_cetak_surat)
+                                <span class="badge badge-cetak">Sudah Cetak</span>
+                            @endif
 
-                            if ($dudi->sudah_cetak_surat) {
-                                $statuses[] = 'Sudah Cetak';
-                            }
+                            @if ($dudi->diterima)
+                                <span class="badge badge-diterima">Sudah Diterima</span>
+                            @endif
 
-                            if ($dudi->diterima) {
-                                $statuses[] = 'Sudah Diterima';
-                            }
-                        @endphp
-
-                        {{ $statuses !== [] ? implode(', ', $statuses) : 'Belum Diproses' }}
+                            @if (!$dudi->sudah_cetak_surat && !$dudi->diterima)
+                                <span class="badge badge-pending">Belum Diproses</span>
+                            @endif
+                        </div>
                     </td>
                     <td>
                         <ol class="stacked-list">
