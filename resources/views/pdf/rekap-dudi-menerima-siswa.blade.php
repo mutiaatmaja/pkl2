@@ -67,6 +67,7 @@
             <tr>
                 <th class="fit">No</th>
                 <th>DUDI</th>
+                <th>Status</th>
                 <th>Siswa-Siswa</th>
                 <th>No HP Siswa</th>
             </tr>
@@ -78,6 +79,21 @@
                     <td>
                         <strong>{{ $dudi->name }}</strong><br>
                         <span>{{ $dudi->address }}</span>
+                    </td>
+                    <td>
+                        @php
+                            $statuses = [];
+
+                            if ($dudi->sudah_cetak_surat) {
+                                $statuses[] = 'Sudah Cetak';
+                            }
+
+                            if ($dudi->diterima) {
+                                $statuses[] = 'Sudah Diterima';
+                            }
+                        @endphp
+
+                        {{ $statuses !== [] ? implode(', ', $statuses) : 'Belum Diproses' }}
                     </td>
                     <td>
                         <ol class="stacked-list">
@@ -96,7 +112,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" style="text-align: center;">Belum ada DUDI yang menerima siswa magang.</td>
+                    <td colspan="5" style="text-align: center;">Belum ada DUDI yang menerima siswa magang.</td>
                 </tr>
             @endforelse
         </tbody>
