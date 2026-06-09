@@ -79,6 +79,10 @@ new #[Layout('layouts.admin')] class extends Component {
             <p class="mt-1 text-sm text-slate-500">Pantau kategori siswa berdasarkan progres magang dan status surat
                 DUDI.</p>
         </div>
+        <a href="{{ route('admin.monitoring-siswa.rekap-dudi-pdf') }}" target="_blank"
+            class="inline-flex items-center gap-2 rounded-xl bg-cyan-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-cyan-700">
+            Cetak Rekap DUDI
+        </a>
     </div>
 
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
